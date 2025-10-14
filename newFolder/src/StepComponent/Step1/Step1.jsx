@@ -28,7 +28,7 @@ const Step1 = ({ stepData, setStepData, step, setStep }) => {
                 ...prev,
                 title: "M/s"
             }))
-        }
+        } 
     }, [stepData?.customertype])
 
     const next = () => {
