@@ -309,7 +309,10 @@ export function Corporate({ handleChangeStep, stepData, setStepData }) {
                 type="text"
                 name="companyName"
                 value={stepData?.companyName}
-                onChange={handleChangeStep}
+                onChange={(e) => {
+                  const value = e.target.value.toLowerCase();
+                  handleChangeStep({...e, target: {...e.target, value}});
+                }}
                 className={`w-full border px-4  py-2 border-[#e6e6e6] rounded`}
                 placeholder="Company Name"
               />
@@ -320,7 +323,10 @@ export function Corporate({ handleChangeStep, stepData, setStepData }) {
                 type="text"
                 name="ucName"
                 value={stepData?.ucName}
-                onChange={handleChangeStep}
+                onChange={(e) => {
+                  const value = e.target.value.toLowerCase();
+                  handleChangeStep({...e, target: {...e.target, value}});
+                }}
                 className={`w-full border px-4 py-2 rounded`}
                 placeholder="U/C Name"
               />
@@ -482,7 +488,10 @@ export function Corporate({ handleChangeStep, stepData, setStepData }) {
               type="text"
               name="address"
               value={stepData?.address}
-              onChange={handleChangeStep}
+              onChange={(e) => {
+                const value = e.target.value.toLowerCase();
+                handleChangeStep({...e, target: {...e.target, value}});
+              }}
               className={`w-full border  px-4 py-2 border-[#e6e6e6] rounded`}
               placeholder="Enter Address"
             />
@@ -494,7 +503,10 @@ export function Corporate({ handleChangeStep, stepData, setStepData }) {
               type="text"
               name="serviceBook"
               value={stepData?.serviceBook}
-              onChange={handleChangeStep}
+              onChange={(e) => {
+                const value = e.target.value.toLowerCase();
+                handleChangeStep({...e, target: {...e.target, value}});
+              }}
               className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
               placeholder="Enter Service Book Number"
             />

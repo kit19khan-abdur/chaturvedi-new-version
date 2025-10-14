@@ -15,13 +15,13 @@ const Step1 = ({ stepData, setStepData, step, setStep }) => {
     };
 
     useEffect(() => {
-        if (stepData?.customertype === "Individual") {
+        if (stepData?.customertype.toLowerCase() === "individual") {
             setIsIndividual(true);
             setIsCorporate(false);
-        } else if (stepData?.customertype === "Corporate") {
+        } else if (stepData?.customertype.toLowerCase() === "corporate") {
             setIsCorporate(true);
             setIsIndividual(false);
-        } else if (stepData?.customertype === "Corporate") {
+        } else if (stepData?.customertype.toLowerCase() === "corporate") {
             setIsCorporate(true);
             setIsIndividual(false);
             setStepData((prev) => ({
