@@ -9,6 +9,10 @@ const Step6 = ({ stepData, setStepData, step, setStep }) => {
     setStep((prev) => prev + 1);
   };
 
+   useEffect(() => {
+          document.title = `Chaturvedi Motors Form || on Step7`;
+      }, []);
+  
   return (
     <div>
       <RenderSix
@@ -34,5 +38,6 @@ const Step6 = ({ stepData, setStepData, step, setStep }) => {
     </div>
   );
 };
+
 
 export default Step6;
