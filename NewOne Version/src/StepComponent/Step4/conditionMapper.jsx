@@ -16,6 +16,10 @@ import {
   condition14,
   condition15,
   condition16,
+  condition17,
+  condition18,
+  condition19,
+  condition20,
 } from "./conditions";
 
 export const getConditionComponent = ({
@@ -179,6 +183,7 @@ export const getConditionComponent = ({
     policy === "tp only policy" &&
     prev === "Yes" && prevType === "package policy"
   )
+  if(customer === "corporate")
     return condition20;
 
   return null;
