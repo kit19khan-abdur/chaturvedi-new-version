@@ -18,7 +18,7 @@ const Step5 = ({ stepData, setStepData, step, setStep }) => {
     setStep((prev) => prev + 1);
   };
    useEffect(() => {
-          document.title = `Chaturvedi Motors Form || on Step6`;
+          document.title = `Chaturvedi Motors Form || on Step5`;
       }, []);
 
   return (
@@ -49,3 +49,4 @@ const Step5 = ({ stepData, setStepData, step, setStep }) => {
 };
 
 export default Step5;
+
