@@ -51,7 +51,7 @@ const MainComponent = () => {
 
         //Step 3
 
-        previousPolicy: "",
+        previousPolicy: "No",
         prevPolicyType: "",
         insurerName: "",
         policyNumber: "",
@@ -153,27 +153,6 @@ const MainComponent = () => {
     });
 
 
-
-    const next = async () => {
-        console.log(`stepData`, stepData)
-        setStep((prev) => prev + 1);
-    };
-
-
-    const onSubmit = async (e) => {
-        e.preventDefault();
-    };
-
-
-
-    const prev = () => {
-        if (prev === 1) {
-            return;
-        } else {
-            setStep((prev) => prev - 1);
-        }
-    };
-
     useEffect(() => {
         document.title = `Chaturvedi Motors Form || on Step1`;
     }, []);
@@ -183,7 +162,7 @@ const MainComponent = () => {
             {/* <h2 className="text-2xl mb-4 mt-2 text-center">Chaturvedi Motors Form</h2> */}
             <StepIndicator currentStep={step} />
             <div className="max-w-[80vw] mx-auto  p-6 mt-10 rounded">
-                <form onSubmit={onSubmit}>
+                <form>
                     {step === 1 && (
                         <Step1
                             step={step}
@@ -243,36 +222,7 @@ const MainComponent = () => {
                             setStep={setStep}
                         />
                     )}
-{/*
-                    <div className={` ${step === 1 ? "" : "flex justify-between"} mt-6`}>
-                        {step > 1 && (
-                            <button
-                                type="button"
-                                onClick={prev}
-                                className="bg-gray-500 cursor-pointer font-[700] text-[#fff] px-4 py-2 rounded"
-                            >
-                                Previous
-                            </button>
-                        )}
-                        {step <= 6 && (
-                            <button
-                                type="button"
-                                onClick={next}
-                                className="bg-[#1a8656] cursor-pointer font-[700] text-[#fff] px-4 py-2 rounded ml-auto"
-                            >
-                                Next
-                            </button>
-                        )}
-
-                        {step > 6 && (
-                            <button
-                                type="submit"
-                                className="bg-green-600 cursor-pointer font-[700] text-[#fff] px-6 py-2 rounded ml-auto"
-                            >
-                                {isLoading ? "Submitting..." : "Submit"}
-                            </button>
-                        )}
-                    </div> */}
+                    
                 </form>
             </div>
         </div>

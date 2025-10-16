@@ -15,6 +15,10 @@ const Step1 = ({ stepData, setStepData, step, setStep }) => {
     };
 
     useEffect(() => {
+        document.title = `Chaturvedi Motors Form || on Step1`
+      }, [])
+
+    useEffect(() => {
         if (stepData?.customertype.toLowerCase() === "individual") {
             setIsIndividual(true);
             setIsCorporate(false);
