@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {SecondStepComp} from './conditions';
+import Swal from 'sweetalert2';
 
 const Step2 = ({ stepData, setStepData, step, setStep }) => {
+  const [requiredFields, setRequiredFields] = useState([]);
     const handleChangeStep = (e) => {
         const { name, value } = e.target;
 
@@ -14,15 +16,32 @@ const Step2 = ({ stepData, setStepData, step, setStep }) => {
     useEffect(() => {
       document.title = `Chaturvedi Motors Form || on Step2`
     },[])
+
+     const validateFields = () => {
+        for (let field of requiredFields) {
+          if (!stepData[field] || stepData[field].trim() === "") {
+            let name = `<span style="color:#e74c3c; font-weight:600; text-transform: capitalize;">${field}</span>`;
+            Swal.fire({
+              icon: "warning",
+              title: "Missing Field",
+              html: `Please fill the required field: ${name}`,
+            });
+            return false;
+          }
+        }
+        return true;
+      };
     const prev = () => {
       setStep((prev) => prev - 1)
     }
     const next = () => {
-      setStep((prev) => prev + 1)
+      if (validateFields()) {
+      setStep(step + 1);
+    }
     }
   return (
     <div>
-      <SecondStepComp stepData={stepData} setStepData={setStepData} handleChangeStep={handleChangeStep} />
+      <SecondStepComp setRequiredFields={setRequiredFields} stepData={stepData} setStepData={setStepData} handleChangeStep={handleChangeStep} />
        <div className={` ${step === 1 ? "" : "flex justify-between"} mt-6`}>
               <button
                 type="button"

@@ -1,6 +1,17 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
-export function Individual({ handleChangeStep, stepData, setStepData }) {
+import React, { useState, useEffect } from "react";
+export function Individual({ handleChangeStep, stepData, setStepData, setRequiredFields  }) {
+
+    useEffect(() => {
+    // ✅ set all required field names
+    setRequiredFields([
+      "customername",
+      "fatherName",
+      "primaryPhone",
+      "whatsappNumber",
+      "pincode",
+      "address"
+    ]);
+  }, [setRequiredFields]);
   const [locality, setLocality] = useState([])
   const fetchDataFromPost = async (pincode) => {
     const url = `https://apiv2.shiprocket.in/v1/external/open/postcode/details?postcode=${pincode}`
@@ -263,7 +274,19 @@ export function Individual({ handleChangeStep, stepData, setStepData }) {
   );
 }
 
-export function Corporate({ handleChangeStep, stepData, setStepData }) {
+export function Corporate({ handleChangeStep, stepData, setStepData, setRequiredFields  }) {
+    useEffect(() => {
+    // ✅ set all required field names
+    setRequiredFields([
+      "companyName",
+      "ucName",
+      "primaryPhone",
+      "whatsappNumber",
+      "pincode",
+      "address"
+    ]);
+  }, [setRequiredFields]);
+  
   const [locality, setLocality] = useState([])
   const fetchDataFromPost = async (pincode) => {
     const url = `https://apiv2.shiprocket.in/v1/external/open/postcode/details?postcode=${pincode}`
@@ -309,10 +332,7 @@ export function Corporate({ handleChangeStep, stepData, setStepData }) {
                 type="text"
                 name="companyName"
                 value={stepData?.companyName}
-                onChange={(e) => {
-                  const value = e.target.value.toLowerCase();
-                  handleChangeStep({...e, target: {...e.target, value}});
-                }}
+                onChange={handleChangeStep}
                 className={`w-full border px-4  py-2 border-[#e6e6e6] rounded`}
                 placeholder="Company Name"
               />
@@ -323,10 +343,7 @@ export function Corporate({ handleChangeStep, stepData, setStepData }) {
                 type="text"
                 name="ucName"
                 value={stepData?.ucName}
-                onChange={(e) => {
-                  const value = e.target.value.toLowerCase();
-                  handleChangeStep({...e, target: {...e.target, value}});
-                }}
+                onChange={handleChangeStep}
                 className={`w-full border px-4 py-2 rounded`}
                 placeholder="U/C Name"
               />
@@ -488,10 +505,7 @@ export function Corporate({ handleChangeStep, stepData, setStepData }) {
               type="text"
               name="address"
               value={stepData?.address}
-              onChange={(e) => {
-                const value = e.target.value.toLowerCase();
-                handleChangeStep({...e, target: {...e.target, value}});
-              }}
+              onChange={handleChangeStep}
               className={`w-full border  px-4 py-2 border-[#e6e6e6] rounded`}
               placeholder="Enter Address"
             />
@@ -503,10 +517,7 @@ export function Corporate({ handleChangeStep, stepData, setStepData }) {
               type="text"
               name="serviceBook"
               value={stepData?.serviceBook}
-              onChange={(e) => {
-                const value = e.target.value.toLowerCase();
-                handleChangeStep({...e, target: {...e.target, value}});
-              }}
+              onChange={handleChangeStep}
               className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
               placeholder="Enter Service Book Number"
             />
