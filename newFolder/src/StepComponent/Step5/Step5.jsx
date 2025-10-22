@@ -15,7 +15,12 @@ const Step5 = ({ stepData, setStepData, step, setStep }) => {
 
     const validateFields = () => {
       for (let field of requiredFields) {
-        if (!stepData[field] || stepData[field].trim() === "") {
+        const value = stepData[field];
+        if (
+          value === undefined ||
+          value === null ||
+          (typeof value === "string" ? value.trim() === "" : value === "")
+        ) {
           let name = `<span style="color:#e74c3c; font-weight:600; text-transform: capitalize;">${field}</span>`;
           Swal.fire({
             icon: "warning",
@@ -32,6 +37,7 @@ const Step5 = ({ stepData, setStepData, step, setStep }) => {
     setStep(step - 1);
   };
   const next = () => {
+    console.warn(`Step 5`, stepData);
      if (validateFields()) {
       setStep(step + 1);
     }

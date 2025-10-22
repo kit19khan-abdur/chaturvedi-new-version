@@ -114,7 +114,7 @@ export const RenderThird = ({ handleChangeStep, stepData, setStepData, setRequir
     const field = []
     if(stepData.previousPolicy.toLowerCase() === "yes"){
       if(stepData.prevPolicyType.toLowerCase() === "od only policy" || stepData.prevPolicyType.toLowerCase() === "od policy"){
-        field.push("policyNumber","odPolicyEndDate","odPolicyStartDate")
+        field.push("policyNumber" )
       }
       if(stepData.prevPolicyType.toLowerCase() === "tp policy"){
         field.push("tpPolicyStartDate","tpPolicyEndDate")

@@ -34,6 +34,7 @@ const Step3 = ({ stepData, setStepData, step, setStep }) => {
     setStep(step - 1);
   };
   const next = () => {
+    console.warn(`Step 3`, stepData);
     if (validateFields()) {
       setStep(step + 1);
     }

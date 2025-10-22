@@ -588,7 +588,7 @@ export const condition1 = ({
         </div>
         <div>
           <label>
-            Net Total (OD + TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (OD + TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -691,8 +691,6 @@ export const condition2 = ({
       );
     }
     field.push(
-      "newODPolicyStartDate",
-      "newODPolicyEndDate",
       "newTPPolicyStartDate",
       "brokerAgencyName",
       "policyNumber",
@@ -911,7 +909,7 @@ export const condition2 = ({
         </div>
         <div>
           <label>
-            Net Total (TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -1306,7 +1304,7 @@ export const condition3 = ({
         </div>
         <div>
           <label>
-            Net Total (OD + TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (OD + TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -1702,7 +1700,7 @@ export const condition4 = ({
         </div>
         <div>
           <label>
-            Net Total (OD + TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (OD + TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -1810,8 +1808,6 @@ export const condition5 = ({
       );
     }
     field.push(
-      "newODPolicyStartDate",
-      "newODPolicyEndDate",
       "newTPPolicyStartDate",
       "brokerAgencyName",
       "policyNumber",
@@ -2098,7 +2094,7 @@ export const condition5 = ({
         </div>
         <div>
           <label>
-            Net Total (OD + TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (OD + TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -2221,7 +2217,7 @@ export const condition6 = ({
       "paCover"
     );
     setRequiredFields(field);
-  }, [setRequiredFields]);
+  }, [setRequiredFields, stepData]);
 
   return (
     <>
@@ -2417,7 +2413,7 @@ export const condition6 = ({
         </div>
         <div>
           <label>
-            Net Total (OD + TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (OD + TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -2524,9 +2520,6 @@ export const condition7 = ({
       );
     }
     field.push(
-      "newODPolicyStartDate",
-      "newODPolicyEndDate",
-      "newTPPolicyStartDate",
       "brokerAgencyName",
       "policyNumber",
       "insurerName",
@@ -2534,7 +2527,7 @@ export const condition7 = ({
       "paCover"
     );
     setRequiredFields(field);
-  }, [setRequiredFields]);
+  }, [setRequiredFields, stepData]);
 
   return (
     <>
@@ -2730,7 +2723,7 @@ export const condition7 = ({
         </div>
         <div>
           <label>
-            Net Total (OD + TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (OD + TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -2830,8 +2823,6 @@ export const condition8 = ({
       );
     }
     field.push(
-      "newODPolicyStartDate",
-      "newODPolicyEndDate",
       "newTPPolicyStartDate",
       "brokerAgencyName",
       "policyNumber",
@@ -2840,7 +2831,7 @@ export const condition8 = ({
       "paCover"
     );
     setRequiredFields(field);
-  }, [setRequiredFields]);
+  }, [setRequiredFields, stepData]);
 
   return (
     <>
@@ -3050,7 +3041,7 @@ export const condition8 = ({
         </div>
         <div>
           <label>
-            Net Total (TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -3160,7 +3151,7 @@ export const condition9 = ({
       "paCover"
     );
     setRequiredFields(field);
-  }, [setRequiredFields]);
+  }, [setRequiredFields, stepData]);
 
   return (
     <>
@@ -3344,7 +3335,7 @@ export const condition9 = ({
         </div>
         <div>
           <label>
-            Net Total (TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -3461,7 +3452,7 @@ export const condition10 = ({
       "paCover"
     );
     setRequiredFields(field);
-  }, [setRequiredFields]);
+  }, [setRequiredFields, stepData]);
 
   return (
     <>
@@ -3762,7 +3753,7 @@ export const condition10 = ({
         </div>
         <div>
           <label>
-            Net Total (OD + TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (OD + TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -3879,7 +3870,7 @@ export const condition11 = ({
       "paCover"
     );
     setRequiredFields(field);
-  }, [setRequiredFields]);
+  }, [setRequiredFields, stepData]);
 
   return (
     <>
@@ -4178,7 +4169,7 @@ export const condition11 = ({
         </div>
         <div>
           <label>
-            Net Total (OD + TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (OD + TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -4295,7 +4286,7 @@ export const condition12 = ({
       "paCover"
     );
     setRequiredFields(field);
-  }, [setRequiredFields]);
+  }, [setRequiredFields, stepData]);
 
   return (
     <>
@@ -4594,7 +4585,7 @@ export const condition12 = ({
         </div>
         <div>
           <label>
-            Net Total (OD + TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (OD + TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -4711,7 +4702,7 @@ export const condition13 = ({
       "paCover"
     );
     setRequiredFields(field);
-  }, [setRequiredFields]);
+  }, [setRequiredFields, stepData]);
 
   return (
     <>
@@ -5010,7 +5001,7 @@ export const condition13 = ({
         </div>
         <div>
           <label>
-            Net Total (OD + TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (OD + TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -5119,7 +5110,6 @@ export const condition14 = ({
     field.push(
       "newODPolicyStartDate",
       "newODPolicyEndDate",
-      "newTPPolicyStartDate",
       "brokerAgencyName",
       "policyNumber",
       "insurerName",
@@ -5127,7 +5117,7 @@ export const condition14 = ({
       "paCover"
     );
     setRequiredFields(field);
-  }, [setRequiredFields]);
+  }, [setRequiredFields, stepData]);
 
   return (
     <>
@@ -5383,7 +5373,7 @@ export const condition14 = ({
         </div>
         <div>
           <label>
-            Net Total (OD + TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (OD + TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -5492,7 +5482,6 @@ export const condition15 = ({
     field.push(
       "newODPolicyStartDate",
       "newODPolicyEndDate",
-      "newTPPolicyStartDate",
       "brokerAgencyName",
       "policyNumber",
       "insurerName",
@@ -5500,7 +5489,7 @@ export const condition15 = ({
       "paCover"
     );
     setRequiredFields(field);
-  }, [setRequiredFields]);
+  }, [setRequiredFields, stepData]);
 
   return (
     <>
@@ -5799,7 +5788,7 @@ export const condition15 = ({
         </div>
         <div>
           <label>
-            Net Total (OD + TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (OD + TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -5916,7 +5905,7 @@ export const condition16 = ({
       "paCover"
     );
     setRequiredFields(field);
-  }, [setRequiredFields]);
+  }, [setRequiredFields, stepData]);
 
   return (
     <>
@@ -6215,7 +6204,7 @@ export const condition16 = ({
         </div>
         <div>
           <label>
-            Net Total (OD + TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (OD + TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -6322,8 +6311,6 @@ export const condition17 = ({
       );
     }
     field.push(
-      "newODPolicyStartDate",
-      "newODPolicyEndDate",
       "newTPPolicyStartDate",
       "brokerAgencyName",
       "policyNumber",
@@ -6332,7 +6319,7 @@ export const condition17 = ({
       "paCover"
     );
     setRequiredFields(field);
-  }, [setRequiredFields]);
+  }, [setRequiredFields, stepData]);
 
   return (
     <>
@@ -6541,7 +6528,7 @@ export const condition17 = ({
         </div>
         <div>
           <label>
-            Net Total (TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -6658,7 +6645,7 @@ export const condition18 = ({
       "paCover"
     );
     setRequiredFields(field);
-  }, [setRequiredFields]);
+  }, [setRequiredFields, stepData]);
 
   return (
     <>
@@ -6944,7 +6931,7 @@ export const condition18 = ({
         </div>
         <div>
           <label>
-            Net Total (TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -7061,7 +7048,7 @@ export const condition19 = ({
       "paCover"
     );
     setRequiredFields(field);
-  }, [setRequiredFields]);
+  }, [setRequiredFields, stepData]);
 
   return (
     <>
@@ -7347,7 +7334,7 @@ export const condition19 = ({
         </div>
         <div>
           <label>
-            Net Total (TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -7464,7 +7451,7 @@ export const condition20 = ({
       "paCover"
     );
     setRequiredFields(field);
-  }, [setRequiredFields]);
+  }, [setRequiredFields, stepData]);
 
   return (
     <>
@@ -7750,7 +7737,7 @@ export const condition20 = ({
         </div>
         <div>
           <label>
-            Net Total (TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -7867,7 +7854,7 @@ export const condition21 = ({
       "paCover"
     );
     setRequiredFields(field);
-  }, [setRequiredFields]);
+  }, [setRequiredFields, stepData]);
 
   return (
     <>
@@ -8165,7 +8152,7 @@ export const condition21 = ({
         </div>
         <div>
           <label>
-            Net Total (OD + TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (OD + TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -8274,7 +8261,6 @@ export const condition22 = ({
     field.push(
       "newODPolicyStartDate",
       "newODPolicyEndDate",
-      "newTPPolicyStartDate",
       "brokerAgencyName",
       "policyNumber",
       "insurerName",
@@ -8282,7 +8268,7 @@ export const condition22 = ({
       "paCover"
     );
     setRequiredFields(field);
-  }, [setRequiredFields]);
+  }, [setRequiredFields, stepData]);
 
   return (
     <>
@@ -8556,7 +8542,7 @@ export const condition22 = ({
         </div>
         <div>
           <label>
-            Net Total (OD + TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (OD + TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"
@@ -8663,8 +8649,6 @@ export const condition23 = ({
       );
     }
     field.push(
-      "newODPolicyStartDate",
-      "newODPolicyEndDate",
       "newTPPolicyStartDate",
       "brokerAgencyName",
       "policyNumber",
@@ -8673,7 +8657,7 @@ export const condition23 = ({
       "paCover"
     );
     setRequiredFields(field);
-  }, [setRequiredFields]);
+  }, [setRequiredFields, stepData]);
 
   return (
     <>
@@ -8681,7 +8665,7 @@ export const condition23 = ({
         <>
           <div className="">
             <label>
-              New TP Policy Start Date <span className="text-[#f00]">*</span>
+              New TP Policy Start Date 23 <span className="text-[#f00]">*</span>
             </label>
             <input
               type="date"
@@ -8881,7 +8865,7 @@ export const condition23 = ({
         </div>
         <div>
           <label>
-            Net Total (TP) <span className="text-[#f00]">*</span>
+            Net Total Amount (TP) <span className="text-[#f00]">*</span>
           </label>
           <input
             type="text"

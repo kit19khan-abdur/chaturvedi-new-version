@@ -1,6 +1,8 @@
+  // Update required fields based on payment modes and validate numeric/decimal
+ 
 import React, { useEffect, useState } from "react";
 
-const StepSixCheckBox = ({ stepData, title,setRequiredFields }) => {
+const StepSixCheckBox = ({ stepData,setStepData, title,setRequiredFields }) => {
   const paymentModessixList = [
     "Cash",
     "NEFT/RTGS",
@@ -14,19 +16,41 @@ const StepSixCheckBox = ({ stepData, title,setRequiredFields }) => {
   ];
   const [localData, setLocalData] = useState(stepData);
 
-  useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("stepData"));
-    if (saved) {
-      setLocalData(saved);
-      setLocalData((prev) => ({ ...prev, ...saved }));
+   useEffect(() => {
+    if (setRequiredFields) {
+      const checkedModes = localData.paymentModessix || [];
+      if (checkedModes.length === 0) {
+        setRequiredFields(["paymentModessix"]);
+      } else {
+        // Map payment modes to their amount fields
+        const modeToField = {
+          "Cash": "cashAmountsix",
+          "NEFT/RTGS": "neftAmountsix",
+          "Google Pay": "googlePayAmountsix",
+          "Debit Card": "debitAmountsix",
+          "Credit Card": "creditAmountsix",
+          "Netbanking": "netbankingAmountsix",
+          "Cheque": "chequeAmountsix",
+          "PhonePe": "phonepeAmountsix"
+        };
+        // Only require amount fields for checked payment modes
+        const required = [];
+        checkedModes.forEach(mode => {
+          if (modeToField[mode]) {
+            required.push(modeToField[mode]);
+          }
+        });
+        setRequiredFields(required);
+      }
     }
-  }, []);
+  }, [localData.paymentModessix, setRequiredFields]);
 
+ 
   const handleChangeStep = (e) => {
     const { name, type, checked, value } = e.target;
 
     // always treat storage as an object
-    const temp = JSON.parse(localStorage.getItem("stepData")) || {};
+    const temp = stepData || {};
     const updated = {
       ...temp,
       ...localData, // include current localData so nothing gets lost
@@ -35,6 +59,7 @@ const StepSixCheckBox = ({ stepData, title,setRequiredFields }) => {
 
     // write to both
     setLocalData(updated);
+    setStepData(updated);
   };
 
   // Sync localData back to parent in real time
@@ -83,35 +108,6 @@ const togglePaymentMode = (mode) => {
     return updated;
   });
 
-  // slight delay so localData updates before we set required fields
-  setTimeout(() => {
-    let required = [];
-
-    if (updatedModes.includes("Cash")) required.push("cashAmountsix");
-    if (updatedModes.includes("NEFT/RTGS"))
-      required.push("neftAmountsix", "transactionIDsix");
-    if (updatedModes.includes("Google Pay"))
-      required.push("googlePayAmountsix", "googlePayDetailsix");
-    if (updatedModes.includes("Debit Card"))
-      required.push("debitAmountsix", "debitCardDetailsix");
-    if (updatedModes.includes("Credit Card"))
-      required.push("creditAmountsix", "creditCardsix");
-    if (updatedModes.includes("Netbanking"))
-      required.push("netbankingAmountsix", "netbankingDetailsix");
-    if (updatedModes.includes("Cheque")) required.push("chequeAmountsix");
-    if (updatedModes.includes("PhonePe"))
-      required.push("phonepeAmountsix", "phonepeDetailsix");
-
-    if (
-      updatedModes.length > 0 &&
-      !(updatedModes.length === 1 && updatedModes.includes("Cash"))
-    ) {
-      required.push("chequeDetailssix");
-    }
-
-    required.push("agencyAmountsix", "paymentDatesix");
-    setRequiredFields(required);
-  }, 0);
 };
 
 
@@ -132,6 +128,7 @@ const togglePaymentMode = (mode) => {
                 name={mode}
                 checked={localData.paymentModessix?.includes(mode)}
                 onChange={() => togglePaymentMode(mode)}
+                required={localData.paymentModessix?.length === 0 && mode === localData?.paymentModessix}
               />
               <span>{mode}</span>
             </label>
@@ -155,7 +152,12 @@ const togglePaymentMode = (mode) => {
               name="cashAmountsix"
               className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
               value={localData.cashAmountsix || ""}
-              onChange={handleChangeStep}
+              onChange={e => {
+                // Only allow numeric/decimal
+                if (/^\d*\.?\d*$/.test(e.target.value)) handleChangeStep(e);
+              }}
+              required={localData.paymentModessix?.includes("Cash")}
+              inputMode="decimal"
             />
           </div>
         </>
@@ -171,7 +173,11 @@ const togglePaymentMode = (mode) => {
               placeholder="NEFT Or RTGS Amount Paid by Customer"
               className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
               value={localData.neftAmountsix || ""}
-              onChange={handleChangeStep}
+              onChange={e => {
+                if (/^\d*\.?\d*$/.test(e.target.value)) handleChangeStep(e);
+              }}
+              required={localData.paymentModessix?.includes("NEFT/RTGS")}
+              inputMode="decimal"
             />
           </div>
         </>
@@ -187,7 +193,11 @@ const togglePaymentMode = (mode) => {
               placeholder="Enter Google Pay Amount Paid by Customer"
               className={`w-full border custom-select px-4 py-2  rounded`}
               value={localData.googlePayAmountsix || ""}
-              onChange={handleChangeStep}
+              onChange={e => {
+                if (/^\d*\.?\d*$/.test(e.target.value)) handleChangeStep(e);
+              }}
+              required={localData.paymentModessix?.includes("Google Pay")}
+              inputMode="decimal"
             />
           </div>
           <div>
@@ -264,7 +274,11 @@ const togglePaymentMode = (mode) => {
               name="debitAmountsix"
               className={`w-full border custom-select px-4 py-2 border-[#e6e6e6]} rounded`}
               value={localData.debitAmountsix || ""}
-              onChange={handleChangeStep}
+              onChange={e => {
+                if (/^\d*\.?\d*$/.test(e.target.value)) handleChangeStep(e);
+              }}
+              required={localData.paymentModessix?.includes("Debit Card")}
+              inputMode="decimal"
             />
           </div>
           <div>
@@ -342,7 +356,11 @@ const togglePaymentMode = (mode) => {
               placeholder="Enter Credit Card Amount Paid by Customer"
               className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
               value={localData.creditAmountsix || ""}
-              onChange={handleChangeStep}
+              onChange={e => {
+                if (/^\d*\.?\d*$/.test(e.target.value)) handleChangeStep(e);
+              }}
+              required={localData.paymentModessix?.includes("Credit Card")}
+              inputMode="decimal"
             />
           </div>
           <div>
@@ -378,7 +396,11 @@ const togglePaymentMode = (mode) => {
               name="netbankingAmountsix"
               className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
               value={localData.netbankingAmountsix || ""}
-              onChange={handleChangeStep}
+              onChange={e => {
+                if (/^\d*\.?\d*$/.test(e.target.value)) handleChangeStep(e);
+              }}
+              required={localData.paymentModessix?.includes("Netbanking")}
+              inputMode="decimal"
             />
           </div>
           <div>
@@ -456,7 +478,11 @@ const togglePaymentMode = (mode) => {
               className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
               placeholder="Enter Cheque Amount"
               value={localData.chequeAmountsix || ""}
-              onChange={handleChangeStep}
+              onChange={e => {
+                if (/^\d*\.?\d*$/.test(e.target.value)) handleChangeStep(e);
+              }}
+              required={localData.paymentModessix?.includes("Cheque")}
+              inputMode="decimal"
             />
           </div>
         </>
@@ -472,7 +498,11 @@ const togglePaymentMode = (mode) => {
               placeholder="Enter Phonepe Amount Paid by Customer"
               className={`w-full border custom-select px-4 py-2 rounded`}
               value={localData.phonepeAmountsix || ""}
-              onChange={handleChangeStep}
+              onChange={e => {
+                if (/^\d*\.?\d*$/.test(e.target.value)) handleChangeStep(e);
+              }}
+              required={localData.paymentModessix?.includes("PhonePe")}
+              inputMode="decimal"
             />
           </div>
           <div>

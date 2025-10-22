@@ -37,7 +37,7 @@ export const getConditionComponent = ({
   const proposal = proposalType?.toLowerCase();
   const policy = policyType?.toLowerCase();
   const prev = previousPolicy?.toLowerCase();
-  const prevType = prevPolicyType?.toLowerCase();
+  const prevType = prevPolicyType?.toLowerCase(); 
 
   if(customer === "corporate")
     return condition20;
@@ -204,6 +204,6 @@ export const getConditionComponent = ({
     prev === "yes")
     return condition23;
 
-  return null;
+  return condition1;
 };
  

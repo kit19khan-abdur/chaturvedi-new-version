@@ -13,9 +13,16 @@ const Step6 = ({ stepData, setStepData, step, setStep }) => {
     });
   };
 
-  const validateFields = () => {
+ const validateFields = () => {
     for (let field of requiredFields) {
-      if (!stepData[field] || stepData[field].trim() === "") {
+      const value = stepData[field];
+      const isEmpty =
+        value === undefined ||
+        value === null ||
+        (typeof value === "string" ? value.trim() === "" : false) ||
+        (Array.isArray(value) ? value.length === 0 : false) ||
+        (typeof value !== "string" && typeof value !== "object" && value === "");
+      if (isEmpty) {
         let name = `<span style="color:#e74c3c; font-weight:600; text-transform: capitalize;">${field}</span>`;
         Swal.fire({
           icon: "warning",
@@ -32,6 +39,7 @@ const Step6 = ({ stepData, setStepData, step, setStep }) => {
     setStep((prev) => prev - 1);
   };
   const next = () => {
+    console.warn(`Step 6`, stepData);
     if (validateFields()) {
       setStep(step + 1);
     }
@@ -47,6 +55,7 @@ const Step6 = ({ stepData, setStepData, step, setStep }) => {
         setStepData={setStepData}
         handleChangeStep={handleChangeStep}
         setRequiredFields={setRequiredFields}
+        requiredFields={requiredFields}
       />
 
       <div className={` ${step === 1 ? "" : "flex justify-between"} mt-6`}>

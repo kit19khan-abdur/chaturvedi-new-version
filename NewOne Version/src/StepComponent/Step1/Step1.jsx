@@ -50,6 +50,7 @@ const Step1 = ({ stepData, setStepData, step, setStep }) => {
   };
 
   const next = () => {
+    console.warn(`Step 1`, stepData);
     if (stepData.title.trim() === "") {
       Swal.fire({
         icon: "warning",

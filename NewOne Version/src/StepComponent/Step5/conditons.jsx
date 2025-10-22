@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 export const RenderFifth = ({
   handleChangeStep,
@@ -36,37 +36,35 @@ export const RenderFifth = ({
       });
 
       // small delay to ensure state sync (React batches updates)
-      setTimeout(() => {
-        let required = [];
-
-        if (updatedModes.includes("Cash")) required.push("cashAmount");
-        if (updatedModes.includes("NEFT/RTGS"))
-          required.push("neftAmount", "transactionID");
-        if (updatedModes.includes("Google Pay"))
-          required.push("googlePayAmount", "googlePayDetail");
-        if (updatedModes.includes("Debit Card"))
-          required.push("debitAmount", "debitCardDetail");
-        if (updatedModes.includes("Credit Card"))
-          required.push("creditAmount", "creditCard");
-        if (updatedModes.includes("Netbanking"))
-          required.push("netbankingAmount", "netbankingDetail");
-        if (updatedModes.includes("Cheque")) required.push("chequeAmount");
-        if (updatedModes.includes("PhonePe"))
-          required.push("phonepeAmount", "phonepeDetail");
-
-        if (
-          updatedModes.length > 0 &&
-          !(updatedModes.length === 1 && updatedModes.includes("Cash"))
-        ) {
-          required.push("chequeDetails");
-        }
-
-        required.push("agencyAmount", "paymentDate", "mopremarks");
-        setRequiredFields(required);
-      }, 0);
+     
     },
     [stepData, setRequiredFields]
   );
+
+  useEffect(() => {
+     if (!stepData || stepData?.paymentModes?.length === 0) {
+          setRequiredFields(["paymentModes"]);
+        } else {
+          // Map payment modes to their amount fields
+          const modeToField = {
+            "Cash": "cashAmount",
+            "NEFT/RTGS": "neftAmount",
+            "Google Pay": "googlePayAmount",
+            "Debit Card": "debitAmount",
+            "Credit Card": "creditAmount",
+            "Netbanking": "netbankingAmount",
+            "Cheque": "chequeAmount",
+            "PhonePe": "phonepeAmount"
+          };
+          let required = ["paymentModes"];
+          stepData?.paymentModes?.forEach(mode => {
+            if (modeToField[mode]) {
+              required.push(modeToField[mode]);
+            }
+          });
+          setRequiredFields(required);
+        }
+  },[stepData, setRequiredFields])
 
   return (
     <>
@@ -104,8 +102,12 @@ export const RenderFifth = ({
                 type="text"
                 name="cashAmount"
                 className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
-                value={stepData.cashAmount || ""}
-                onChange={handleChangeStep}
+                value={stepData.cashAmount === undefined || stepData.cashAmount === null ? "" : String(stepData.cashAmount)}
+                onChange={e => {
+                  if (/^\d*(\.\d*)?$/.test(e.target.value)) handleChangeStep(e);
+                }}
+                required={localData.paymentModes?.includes("Cash")}
+                inputMode="decimal"
               />
             </div>
           </>
@@ -120,8 +122,12 @@ export const RenderFifth = ({
                 name="neftAmount"
                 placeholder="NEFT Or RTGS Amount Paid to Insurance Company"
                 className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
-                value={stepData.neftAmount || ""}
-                onChange={handleChangeStep}
+                value={stepData.neftAmount === undefined || stepData.neftAmount === null ? "" : String(stepData.neftAmount)}
+                onChange={e => {
+                  if (/^\d*\.?\d*$/.test(e.target.value)) handleChangeStep(e);
+                }}
+                required={localData.paymentModes?.includes("NEFT/RTGS")}
+                inputMode="decimal"
               />
             </div>
             <div>
@@ -131,8 +137,12 @@ export const RenderFifth = ({
                 name="transactionID"
                 placeholder="Enter UTR / Transaction ID / Cheque Details"
                 className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
-                value={stepData.transactionID || ""}
-                onChange={handleChangeStep}
+                value={stepData.transactionID === undefined || stepData.transactionID === null ? "" : String(stepData.transactionID)}
+                onChange={e => {
+                  if (/^\d*\.?\d*$/.test(e.target.value)) handleChangeStep(e);
+                }}
+                required={localData.paymentModes?.includes("Google Pay")}
+                inputMode="decimal"
               />
             </div>
           </>
@@ -147,8 +157,12 @@ export const RenderFifth = ({
                 name="googlePayAmount"
                 placeholder="Enter Google Pay Amount Paid to Insurance Company"
                 className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
-                value={stepData.googlePayAmount || ""}
-                onChange={handleChangeStep}
+                value={stepData.googlePayAmount === undefined || stepData.googlePayAmount === null ? "" : String(stepData.googlePayAmount)}
+                onChange={e => {
+                  if (/^\d*\.?\d*$/.test(e.target.value)) handleChangeStep(e);
+                }}
+                required={localData.paymentModes?.includes("Debit Card")}
+                inputMode="decimal"
               />
             </div>
             <div>
@@ -225,8 +239,12 @@ export const RenderFifth = ({
                 type="text"
                 name="debitAmount"
                 className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
-                value={stepData.debitAmount || ""}
-                onChange={handleChangeStep}
+                value={stepData.debitAmount === undefined || stepData.debitAmount === null ? "" : String(stepData.debitAmount)}
+                onChange={e => {
+                  if (/^\d*\.?\d*$/.test(e.target.value)) handleChangeStep(e);
+                }}
+                required={localData.paymentModes?.includes("Credit Card")}
+                inputMode="decimal"
               />
             </div>
             <div>
@@ -304,8 +322,12 @@ export const RenderFifth = ({
                 name="creditAmount"
                 placeholder="Enter Credit Card Amount Paid to Insurance Company"
                 className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
-                value={stepData.creditAmount || ""}
-                onChange={handleChangeStep}
+                value={stepData.creditAmount === undefined || stepData.creditAmount === null ? "" : String(stepData.creditAmount)}
+                onChange={e => {
+                  if (/^\d*\.?\d*$/.test(e.target.value)) handleChangeStep(e);
+                }}
+                required={localData.paymentModes?.includes("Netbanking")}
+                inputMode="decimal"
               />
             </div>
             <div>
@@ -341,8 +363,12 @@ export const RenderFifth = ({
                 placeholder="Enter Netbanking Amount Paid to Insurance Company"
                 name="netbankingAmount"
                 className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
-                value={stepData.netbankingAmount || ""}
-                onChange={handleChangeStep}
+                value={stepData.netbankingAmount === undefined || stepData.netbankingAmount === null ? "" : String(stepData.netbankingAmount)}
+                onChange={e => {
+                  if (/^\d*\.?\d*$/.test(e.target.value)) handleChangeStep(e);
+                }}
+                required={localData.paymentModes?.includes("Cheque")}
+                inputMode="decimal"
               />
             </div>
             <div>
@@ -420,8 +446,12 @@ export const RenderFifth = ({
                 name="chequeAmount"
                 className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
                 placeholder="Enter Cheque Amount"
-                value={stepData.chequeAmount || ""}
-                onChange={handleChangeStep}
+                value={stepData.chequeAmount === undefined || stepData.chequeAmount === null ? "" : String(stepData.chequeAmount)}
+                onChange={e => {
+                  if (/^\d*\.?\d*$/.test(e.target.value)) handleChangeStep(e);
+                }}
+                required={localData.paymentModes?.includes("PhonePe")}
+                inputMode="decimal"
               />
             </div>
           </>
@@ -436,7 +466,7 @@ export const RenderFifth = ({
                 name="phonepeAmount"
                 placeholder="Enter Phonepe Amount Paid to Insurance Company"
                 className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
-                value={stepData.phonepeAmount || ""}
+                value={stepData.phonepeAmount === undefined || stepData.phonepeAmount === null ? "" : String(stepData.phonepeAmount)}
                 onChange={handleChangeStep}
               />
             </div>
@@ -511,7 +541,9 @@ export const RenderFifth = ({
             name="agencyAmount"
             className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
             value={stepData.agencyAmount || ""}
-            onChange={handleChangeStep}
+            onChange={e => {
+                  if (/^\d*\.?\d*$/.test(e.target.value)) handleChangeStep(e);
+                }}
           />
         </div>
 
