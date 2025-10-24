@@ -77,7 +77,7 @@ const Step4 = ({ stepData, step, setStep, setStepData }) => {
         const totalPremium = Number(netTotal) + gst;
         const breakingCharge = Number(updated.breakingCharge) || 0;
         const waiver = Number(updated.waiverAmount) || 0;
-        const netPayable = Number(totalPremium) + Number(breakingCharge) - Number(waiver);
+        let netPayable = Number(totalPremium) + Number(breakingCharge) - Number(waiver);
 
         // ✅ Prevent negative value and alert
         if (netPayable < 0) {
