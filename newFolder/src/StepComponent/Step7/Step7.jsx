@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { RenderSeven } from "./conditons";
+import { validateDateRange, validateDateRangeStrict } from '../../utils/dateValidation.js';
 import handleSubmit from "../../handleSubmit";
 import Swal from "sweetalert2";
 
@@ -171,6 +172,22 @@ const Step7 = ({ stepData, setStepData, step, setStep }) => {
         return false;
       }
     }
+
+    const pucAvailable = (stepData.pucAvailable || "").toLowerCase();
+    if (pucAvailable === "yes") {
+      const pucStartDate = stepData.pucStartDate;
+      const pucEndDate = stepData.pucEndDate;
+      const result = validateDateRange(pucStartDate, pucEndDate);
+      if (!result.isValid) {
+        Swal.fire({
+          icon: "warning",
+          title: "Invalid Date Range",
+          html: result.error,
+        });
+        return false;
+      }
+    }
+
     return true;
   };
 
