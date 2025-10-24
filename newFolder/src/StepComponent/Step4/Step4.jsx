@@ -90,6 +90,7 @@ const Step4 = ({ stepData, step, setStep, setStepData }) => {
             text: "Net Payable cannot be less than 0. It has been reset to 0.",
           });
           netPayable = 0;
+          updated.netPayable = netPayable;
         }
 
         // Update calculated fields
