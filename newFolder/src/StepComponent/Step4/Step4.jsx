@@ -34,10 +34,10 @@ const Step4 = ({ stepData, step, setStep, setStepData }) => {
         return false;
       }
     }
-
+    let isPaCovered = (stepData.paCover || "").toLowerCase() === "yes";
     let paStartDate = stepData.paStartDate;
     let paEndDate = stepData.paEndDate;
-    if (paStartDate && paEndDate) {
+    if (paStartDate && paEndDate && isPaCovered) {
       let _paDataResult = validateDateRange(paStartDate, paEndDate);
       if (!_paDataResult.isValid) {
         Swal.fire({
