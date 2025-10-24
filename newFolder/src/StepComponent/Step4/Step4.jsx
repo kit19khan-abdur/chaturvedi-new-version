@@ -67,6 +67,9 @@ const Step4 = ({ stepData, step, setStep, setStepData }) => {
     setStepData((prev) => {
       if (!prev) return prev;
 
+      // Create a shallow copy and apply the current change so calculations use the new value
+      const updated = { ...prev, [name]: value };
+
       // Update netTotal/totalPremium/netPayable if amount fields change
       if (["odAmount", "tpAmount", "gstAmount", "breakingCharge", "waiverAmount"].includes(name)) {
         const od = Number(updated.odAmount) || 0;
@@ -87,7 +90,6 @@ const Step4 = ({ stepData, step, setStep, setStepData }) => {
             text: "Net Payable cannot be less than 0. It has been reset to 0.",
           });
           netPayable = 0;
-          updated.netPayable = netPayable;
         }
 
         // Update calculated fields
