@@ -1,52 +1,37 @@
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+// Extend dayjs with the parsing plugin
+dayjs.extend(customParseFormat);
+
 /**
  * Validates date range where both start and end dates are required
  * and start date must be less than or equal to end date
  * @param {string|Date} startDate - The start date
  * @param {string|Date} endDate - The end date
+ * @param {Object} [options] - parsing options
+ * @param {boolean} [options.dayFirst=false] - if true, parse ambiguous numeric dates as DD/MM/YYYY, otherwise MM/DD/YYYY
  * @returns {Object} - Validation result with isValid boolean and error message if invalid
  */
 export const validateDateRange = (startDate, endDate, options = {}) => {
   // Check if both dates are provided
   if (!startDate || !endDate) {
-    return {
-      isValid: false,
-      error: 'Both start date and end date are required'
-    };
+    return { isValid: false, error: 'Both start date and end date are required' };
   }
 
-  // Use the robust parser to accept many formats (but keep original return shape)
   const startParsed = parseDate(startDate, options);
   const endParsed = parseDate(endDate, options);
 
-  if (!startParsed) {
-    return {
-      isValid: false,
-      error: 'Invalid start date format'
-    };
-  }
+  if (!startParsed) return { isValid: false, error: 'Invalid start date format' };
+  if (!endParsed) return { isValid: false, error: 'Invalid end date format' };
 
-  if (!endParsed) {
-    return {
-      isValid: false,
-      error: 'Invalid end date format'
-    };
-  }
+  // Compare date-only (strip time)
+  const s = dayjs(startParsed).startOf('day');
+  const e = dayjs(endParsed).startOf('day');
 
-  // Compare date-only values (ignore time component). Allow equality.
-  const startDay = new Date(startParsed.getFullYear(), startParsed.getMonth(), startParsed.getDate()).getTime();
-  const endDay = new Date(endParsed.getFullYear(), endParsed.getMonth(), endParsed.getDate()).getTime();
+  if (s.isAfter(e)) return { isValid: false, error: 'Start date must be less than or equal to end date' };
 
-  if (startDay > endDay) {
-    return {
-      isValid: false,
-      error: 'Start date must be less than or equal to end date'
-    };
-  }
-
-  return {
-    isValid: true,
-    error: null
-  };
+  return { isValid: true, error: null };
 };
 
 /**
@@ -67,82 +52,42 @@ export const validateDateRange = (startDate, endDate, options = {}) => {
  * @returns {Date|null}
  */
 function parseDate(input, options = {}) {
-  const { dayFirst = true } = options;
+  const { dayFirst = false } = options; // default month-first to match system
   if (input === undefined || input === null || input === "") return null;
 
-  // Date object
+  // If already a Date instance
   if (input instanceof Date) {
     return isNaN(input.getTime()) ? null : input;
   }
 
-  // Numeric timestamp
-  if (typeof input === "number") {
-    const d = new Date(input);
-    return isNaN(d.getTime()) ? null : d;
+  // If numeric timestamp
+  if (typeof input === 'number') {
+    const d = dayjs(input);
+    return d.isValid() ? d.toDate() : null;
   }
 
-  // String handling
-  if (typeof input === "string") {
-    let s = input.trim();
+  // String parsing via dayjs with candidate formats
+  if (typeof input === 'string') {
+    const s = input.trim();
     if (!s) return null;
 
-    // Quick native parse first (handles many formats and month names)
-    const n = new Date(s);
-    if (!isNaN(n.getTime())) return n;
+    // Try ISO / native parse first
+    const iso = dayjs(s);
+    if (iso.isValid()) return iso.toDate();
 
-    // Normalize separators and remove ordinal suffixes / commas
-    s = s.replace(/(st|nd|rd|th)/gi, "");
-    s = s.replace(/,/g, "");
-    s = s.replace(/[\.\s\/]+/g, "-");
+    // Candidate formats
+    const isoLike = ['YYYY-MM-DD', 'YYYYMMDD'];
+    const ddmmy = ['DD-MM-YYYY', 'DD/MM/YYYY', 'DD-MMM-YYYY', 'D-M-YYYY', 'D/M/YYYY'];
+    const mmddy = ['MM-DD-YYYY', 'MM/DD/YYYY', 'M-D-YYYY', 'M/D/YYYY'];
 
-    // YYYY-MM-DD or YYYY-M-D
-    if (/^\d{4}-\d{1,2}-\d{1,2}$/.test(s)) {
-      const [y, m, d] = s.split("-").map(Number);
-      const date = new Date(y, m - 1, d);
-      return isNaN(date.getTime()) ? null : date;
-    }
+    const formats = dayFirst ? [...ddmmy, ...isoLike, ...mmddy] : [...mmddy, ...isoLike, ...ddmmy];
 
-    // YYYYMMDD
-    if (/^\d{8}$/.test(s)) {
-      const y = Number(s.slice(0, 4));
-      const m = Number(s.slice(4, 6));
-      const d = Number(s.slice(6, 8));
-      const date = new Date(y, m - 1, d);
-      return isNaN(date.getTime()) ? null : date;
-    }
-
-    // D-M-YYYY or M-D-YYYY (ambiguous): handle according to dayFirst option
-    if (/^\d{1,2}-\d{1,2}-\d{4}$/.test(s)) {
-      const [a, b, y] = s.split("-").map(Number);
-      // if one part > 12 it's definitely the day
-      let day, month;
-      if (a > 12) {
-        day = a;
-        month = b;
-      } else if (b > 12) {
-        day = b;
-        month = a;
-      } else {
-        // ambiguous: follow dayFirst option
-        if (dayFirst) {
-          day = a;
-          month = b;
-        } else {
-          day = b;
-          month = a;
-        }
-      }
-      const date = new Date(y, month - 1, day);
-      return isNaN(date.getTime()) ? null : date;
-    }
-
-    // Fallback: let Date try again with slight modifications (replace - with /)
-    const alt = new Date(s.replace(/-/g, "/"));
-    if (!isNaN(alt.getTime())) return alt;
+    const parsed = dayjs(s, formats, true); // strict parse
+    if (parsed.isValid()) return parsed.toDate();
   }
 
   return null;
-};
+}
 
 /**
  * Validate date range using more robust parsing (handles many common formats).
