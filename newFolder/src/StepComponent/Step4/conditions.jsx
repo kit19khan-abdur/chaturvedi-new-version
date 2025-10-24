@@ -1001,13 +1001,7 @@ export const condition2 = ({
           <input
             type="text"
             name="netPayable"
-            value={
-              Number(
-                stepData.totalPremium +
-                stepData.breakingCharge -
-                stepData.waiverAmount
-              ) || 0
-            }
+          value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
         </div>
@@ -1396,13 +1390,7 @@ export const condition3 = ({
           <input
             type="text"
             name="netPayable"
-            value={
-              Number(
-                stepData.totalPremium +
-                stepData.breakingCharge -
-                stepData.waiverAmount
-              ) || 0
-            }
+            value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
         </div>
@@ -1792,13 +1780,7 @@ export const condition4 = ({
           <input
             type="text"
             name="netPayable"
-            value={
-              Number(
-                stepData.totalPremium +
-                stepData.breakingCharge -
-                stepData.waiverAmount
-              ) || 0
-            }
+            value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
         </div>
@@ -2192,13 +2174,7 @@ export const condition5 = ({
           <input
             type="text"
             name="netPayable"
-            value={
-              Number(
-                stepData.totalPremium +
-                stepData.breakingCharge -
-                stepData.waiverAmount
-              ) || 0
-            }
+            value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
         </div>
