@@ -256,7 +256,7 @@ export const RenderThird = ({ handleChangeStep, stepData, setStepData, setRequir
                   </label>
                   <input
                     type="date"
-                    name="C"
+                    name="odPolicyStartDate"
                     value={stepData?.odPolicyStartDate}
                     onChange={handleChangeStep}
                     className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}

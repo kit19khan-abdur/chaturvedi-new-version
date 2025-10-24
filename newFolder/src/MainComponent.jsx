@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 
 
 const MainComponent = () => {
-    const [step, setStep] = useState(6);
+    const [step, setStep] = useState(1);
     const [stepData, setStepData] = useState({
         customertype: "Individual",
         title: "",

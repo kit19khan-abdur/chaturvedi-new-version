@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { RenderThird } from "./conditons";
+import { validateDateRange, validateDateRangeStrict } from '../../utils/dateValidation.js';
+
 import Swal from "sweetalert2";
 
 const Step3 = ({ stepData, setStepData, step, setStep }) => {
@@ -27,6 +29,27 @@ const Step3 = ({ stepData, setStepData, step, setStep }) => {
         return false;
       }
     }
+
+
+
+    if (stepData.previousPolicy.toLowerCase() === "yes") {
+      const _ppsDate = stepData.prevoiusPolicyStartDate;
+      const _ppeDate = stepData.prevoiusPolicyEndDate;
+      const result = validateDateRange(_ppsDate, _ppeDate);
+      if (!result.isValid) {
+        Swal.fire({
+          icon: "warning",
+          title: "Invalid Date Range",
+          html: result.error,
+        });
+        return false;
+      }
+    }
+
+
+
+    // prevoiusPolicyStartDate // prevoiusPolicyEndDate
+
     return true;
   };
 

@@ -1,6 +1,7 @@
 // Step4.jsx
 import React, { useEffect, useState } from "react";
 import { getConditionComponent } from "./conditionMapper";
+import { validateDateRange, validateDateRangeStrict } from '../../utils/dateValidation.js';
 import Swal from "sweetalert2";
 
 const Step4 = ({ stepData, step, setStep, setStepData }) => {
@@ -19,6 +20,35 @@ const Step4 = ({ stepData, step, setStep, setStepData }) => {
         return false;
       }
     }
+
+    let newTPPolicyStartDate = stepData.newTPPolicyStartDate;
+    let newTPPolicyEndDate = stepData.newTPPolicyEndDate;
+    if(newTPPolicyStartDate && newTPPolicyEndDate) {
+     let _tpDataResult = validateDateRange(newTPPolicyStartDate, newTPPolicyEndDate);
+      if(!_tpDataResult.isValid) {
+        Swal.fire({
+          icon: "warning",
+          title: "Invalid Date Range",
+          html: _tpDataResult.error,
+      })
+        return false;
+      } 
+    }
+
+    let paStartDate = stepData.paStartDate;
+    let paEndDate = stepData.paEndDate;
+    if(paStartDate && paEndDate) {
+     let _paDataResult = validateDateRange(paStartDate, paEndDate);
+      if(!_paDataResult.isValid) {
+        Swal.fire({
+          icon: "warning",
+          title: "Invalid Date Range",
+          html: _paDataResult.error,
+      })    
+        return false;
+      } 
+    }
+
     return true;
   };
 
@@ -48,7 +78,7 @@ const Step4 = ({ stepData, step, setStep, setStepData }) => {
         const totalPremium = Number(netTotal) + gst;
         const breakingCharge = Number(updated.breakingCharge) || 0;
         const waiver = Number(updated.waiverAmount) || 0;
-        const netPayable = Number(totalPremium) + breakingCharge - waiver;
+        const netPayable = Number(totalPremium) + Number(breakingCharge) - Number(waiver);
 
         updated.netTotal = netTotal;
         updated.totalPremium = totalPremium; 
