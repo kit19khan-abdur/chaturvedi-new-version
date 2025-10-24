@@ -23,30 +23,30 @@ const Step4 = ({ stepData, step, setStep, setStepData }) => {
 
     let newTPPolicyStartDate = stepData.newTPPolicyStartDate;
     let newTPPolicyEndDate = stepData.newTPPolicyEndDate;
-    if(newTPPolicyStartDate && newTPPolicyEndDate) {
-     let _tpDataResult = validateDateRange(newTPPolicyStartDate, newTPPolicyEndDate);
-      if(!_tpDataResult.isValid) {
+    if (newTPPolicyStartDate && newTPPolicyEndDate) {
+      let _tpDataResult = validateDateRange(newTPPolicyStartDate, newTPPolicyEndDate);
+      if (!_tpDataResult.isValid) {
         Swal.fire({
           icon: "warning",
           title: "Invalid Date Range",
           html: _tpDataResult.error,
-      })
+        })
         return false;
-      } 
+      }
     }
 
     let paStartDate = stepData.paStartDate;
     let paEndDate = stepData.paEndDate;
-    if(paStartDate && paEndDate) {
-     let _paDataResult = validateDateRange(paStartDate, paEndDate);
-      if(!_paDataResult.isValid) {
+    if (paStartDate && paEndDate) {
+      let _paDataResult = validateDateRange(paStartDate, paEndDate);
+      if (!_paDataResult.isValid) {
         Swal.fire({
           icon: "warning",
           title: "Invalid Date Range",
           html: _paDataResult.error,
-      })    
+        })
         return false;
-      } 
+      }
     }
 
     return true;
@@ -66,7 +66,6 @@ const Step4 = ({ stepData, step, setStep, setStepData }) => {
 
     setStepData((prev) => {
       if (!prev) return prev;
-      const updated = { ...prev, [name]: value };
 
       // Update netTotal/totalPremium/netPayable if amount fields change
       if (["odAmount", "tpAmount", "gstAmount", "breakingCharge", "waiverAmount"].includes(name)) {
@@ -80,20 +79,27 @@ const Step4 = ({ stepData, step, setStep, setStepData }) => {
         const waiver = Number(updated.waiverAmount) || 0;
         const netPayable = Number(totalPremium) + Number(breakingCharge) - Number(waiver);
 
+        // ✅ Prevent negative value and alert
+        if (netPayable < 0) {
+          Swal.fire({
+            icon: "warning",
+            title: "Invalid Amount",
+            text: "Net Payable cannot be less than 0. It has been reset to 0.",
+          });
+          netPayable = 0;
+          updated.netPayable = netPayable;
+        }
+
+        // Update calculated fields
         updated.netTotal = netTotal;
-        updated.totalPremium = totalPremium; 
+        updated.totalPremium = totalPremium;
         updated.netPayable = netPayable;
       }
 
-      try {
-        localStorage.setItem("stepData", JSON.stringify(updated));
-      } catch (e) {
-        // ignore storage errors
-      }
-      
       return updated;
     });
   };
+
 
   useEffect(() => {
     document.title = `Chaturvedi Motors Form || on Step4`;

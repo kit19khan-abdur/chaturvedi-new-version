@@ -1,8 +1,8 @@
-  // Update required fields based on payment modes and validate numeric/decimal
- 
+// Update required fields based on payment modes and validate numeric/decimal
+
 import React, { useEffect, useState } from "react";
 
-const StepSixCheckBox = ({ stepData,setStepData, title,setRequiredFields }) => {
+const StepSixCheckBox = ({ stepData, setStepData, title, setRequiredFields }) => {
   const paymentModessixList = [
     "Cash",
     "NEFT/RTGS",
@@ -16,36 +16,8 @@ const StepSixCheckBox = ({ stepData,setStepData, title,setRequiredFields }) => {
   ];
   const [localData, setLocalData] = useState(stepData);
 
-   useEffect(() => {
-    if (setRequiredFields) {
-      const checkedModes = localData.paymentModessix || [];
-      if (checkedModes.length === 0) {
-        setRequiredFields(["paymentModessix"]);
-      } else {
-        // Map payment modes to their amount fields
-        const modeToField = {
-          "Cash": "cashAmountsix",
-          "NEFT/RTGS": "neftAmountsix",
-          "Google Pay": "googlePayAmountsix",
-          "Debit Card": "debitAmountsix",
-          "Credit Card": "creditAmountsix",
-          "Netbanking": "netbankingAmountsix",
-          "Cheque": "chequeAmountsix",
-          "PhonePe": "phonepeAmountsix"
-        };
-        // Only require amount fields for checked payment modes
-        const required = [];
-        checkedModes.forEach(mode => {
-          if (modeToField[mode]) {
-            required.push(modeToField[mode]);
-          }
-        });
-        setRequiredFields(required);
-      }
-    }
-  }, [localData.paymentModessix, setRequiredFields]);
 
- 
+
   const handleChangeStep = (e) => {
     const { name, type, checked, value } = e.target;
 
@@ -64,51 +36,50 @@ const StepSixCheckBox = ({ stepData,setStepData, title,setRequiredFields }) => {
 
   // Sync localData back to parent in real time
 
-const togglePaymentMode = (mode) => {
-  let updatedModes = [];
+  const togglePaymentMode = (mode) => {
+    setLocalData((prev) => {
+      const currentModes = prev.paymentModessix || [];
+      const updatedModes = currentModes.includes(mode)
+        ? currentModes.filter((m) => m !== mode)
+        : [...currentModes, mode];
 
-  setLocalData((prev) => {
-    const currentModes = prev.paymentModessix || [];
-    updatedModes = currentModes.includes(mode)
-      ? currentModes.filter((m) => m !== mode)
-      : [...currentModes, mode];
+      const updated = { ...prev, paymentModessix: updatedModes };
 
-    const updated = { ...prev, paymentModessix: updatedModes };
+      // clear associated fields if unchecked
+      if (!updatedModes.includes(mode)) {
+        if (mode === "Cash") updated.cashAmountsix = "";
+        if (mode === "NEFT/RTGS") {
+          updated.neftAmountsix = "";
+          updated.transactionIDsix = "";
+        }
+        if (mode === "Google Pay") {
+          updated.googlePayAmountsix = "";
+          updated.googlePayDetailsix = "";
+        }
+        if (mode === "Debit Card") {
+          updated.debitAmountsix = "";
+          updated.debitCardDetailsix = "";
+        }
+        if (mode === "Credit Card") {
+          updated.creditAmountsix = "";
+          updated.creditCardsix = "";
+        }
+        if (mode === "Netbanking") {
+          updated.netbankingAmountsix = "";
+          updated.netbankingDetailsix = "";
+        }
+        if (mode === "Cheque") updated.chequeAmountsix = "";
+        if (mode === "PhonePe") {
+          updated.phonepeAmountsix = "";
+          updated.phonepeDetailsix = "";
+        }
+      }
 
-    // clear associated fields if unchecked
-    if (!updatedModes.includes(mode)) {
-      if (mode === "Cash") updated.cashAmountsix = "";
-      if (mode === "NEFT/RTGS") {
-        updated.neftAmountsix = "";
-        updated.transactionIDsix = "";
-      }
-      if (mode === "Google Pay") {
-        updated.googlePayAmountsix = "";
-        updated.googlePayDetailsix = "";
-      }
-      if (mode === "Debit Card") {
-        updated.debitAmountsix = "";
-        updated.debitCardDetailsix = "";
-      }
-      if (mode === "Credit Card") {
-        updated.creditAmountsix = "";
-        updated.creditCardsix = "";
-      }
-      if (mode === "Netbanking") {
-        updated.netbankingAmountsix = "";
-        updated.netbankingDetailsix = "";
-      }
-      if (mode === "Cheque") updated.chequeAmountsix = "";
-      if (mode === "PhonePe") {
-        updated.phonepeAmountsix = "";
-        updated.phonepeDetailsix = "";
-      }
-    }
-
-    return updated;
-  });
-
-};
+      // Sync to parent stepData as well
+      setStepData((prevStepData) => ({ ...prevStepData, ...updated }));
+      return updated;
+    });
+  };
 
 
   useEffect(() => {
@@ -160,6 +131,8 @@ const togglePaymentMode = (mode) => {
               inputMode="decimal"
             />
           </div>
+          <>
+          </>
         </>
       )}
 
@@ -260,6 +233,7 @@ const togglePaymentMode = (mode) => {
               <option value="Priyanka Sharma - PNB BANK - S/A">
                 Priyanka Sharma - PNB BANK - S/A
               </option>
+              <option value="other">Other</option>
             </select>
           </div>
         </>
@@ -341,6 +315,7 @@ const togglePaymentMode = (mode) => {
               <option value="Priyanka Sharma - PNB BANK - S/A">
                 Priyanka Sharma - PNB BANK - S/A
               </option>
+              <option value="other">Other</option>
             </select>
           </div>
         </>
@@ -381,6 +356,7 @@ const togglePaymentMode = (mode) => {
               <option value="SatyaPrakash - ICICI BANK - S/A">
                 SatyaPrakash - ICICI BANK - S/A
               </option>
+              <option value="other">Other</option>
             </select>
           </div>
         </>
@@ -463,6 +439,7 @@ const togglePaymentMode = (mode) => {
               <option value="Priyanka Sharma - PNB BANK - S/A">
                 Priyanka Sharma - PNB BANK - S/A
               </option>
+              <option value="other">Other</option>
             </select>
           </div>
         </>
@@ -484,6 +461,43 @@ const togglePaymentMode = (mode) => {
               required={localData.paymentModessix?.includes("Cheque")}
               inputMode="decimal"
             />
+          </div>
+            <div className="mb-4">
+            <label className="block font-medium">Drawn Bank <span className="text-[#f00]">*</span></label>
+            <select
+              name="drawnBank"
+              className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
+              value={stepData.drawnBank}
+              onChange={(e) => handleChangeStep(e)}
+            >
+              <option value="">Select Option</option>
+              <option value="Chaturvedi Motors  HDFC Bank Current Account">Chaturvedi Motors  HDFC Bank Current Account</option>
+              <option value="Chaturvedi Motors SBI Bank Current Account">Chaturvedi Motors SBI Bank Current Account</option>
+              <option value="Other Bank">Other Bank</option>
+            </select>
+          </div>
+          <div>
+            <label className="block font-medium">Cheque Clearance Date <span className="text-[#f00]">*</span></label>
+            <input
+              type="date"
+              name="chequeClearanceDate"
+              className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
+              value={stepData.chequeClearanceDate}
+              onChange={(e) => handleChangeStep(e)}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block font-medium">Cheque status <span className="text-[#f00]">*</span></label>
+            <select
+              name="chequestatus"
+              className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
+              value={stepData.chequestatus}
+              onChange={(e) => handleChangeStep(e)}
+            >
+              <option value="">Select Option</option>
+              <option value="Clear">Clear</option>
+              <option value="Bounce">Bounce</option>
+            </select>
           </div>
         </>
       )}
@@ -532,6 +546,7 @@ const togglePaymentMode = (mode) => {
               <option value="Chaturvedi Motors HDFC 9837111044">
                 Chaturvedi Motors HDFC 9837111044
               </option>
+              <option value="other">Other</option>
             </select>
           </div>
         </>

@@ -4,65 +4,12 @@ export const DefaultFields = ({ stepData, handleChangeStep, setRequiredFields })
 
   return (
     <>
-      <div className="capitalize rounded-xl ">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div className="mb-4">
-            <label className="block font-medium">Drawn Bank <span className="text-[#f00]">*</span></label>
-            <select
-              name="drawnBank"
-              className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
-              value={stepData.drawnBank}
-              onChange={(e) => handleChangeStep(e)}
-            >
-              <option value="">Select Option</option>
-              <option value="Chaturvedi Motors  HDFC Bank Current Account">Chaturvedi Motors  HDFC Bank Current Account</option>
-              <option value="Chaturvedi Motors SBI Bank Current Account">Chaturvedi Motors SBI Bank Current Account</option>
-              <option value="Other Bank">Other Bank</option>
-            </select>
-          </div>
-          <div>
-            <label className="block font-medium">Cheque Clearance Date <span className="text-[#f00]">*</span></label>
-            <input
-              type="date"
-              name="chequeClearanceDate"
-              className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
-              value={stepData.chequeClearanceDate}
-              onChange={(e) => handleChangeStep(e)}
-            />
-          </div>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div className="mb-4">
-            <label className="block font-medium">Cheque status <span className="text-[#f00]">*</span></label>
-            <select
-              name="chequestatus"
-              className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
-              value={stepData.chequestatus}
-              onChange={(e) => handleChangeStep(e)}
-            >
-              <option value="">Select Option</option>
-              <option value="Clear">Clear</option>
-              <option value="Bounce">Bounce</option>
-            </select>
-          </div>
-          <div>
-            <label className="block font-medium">Remarks <span className="text-[#f00]">*</span></label>
-            <textarea
-              rows={3}
-              placeholder="Enter Remarks"
-              name="paymentRecievedRemarks"
-              className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
-              value={stepData.paymentRecievedRemarks}
-              onChange={(e) => handleChangeStep(e)}
-            />
-          </div>
-        </div>
-      </div>
+      
     </>
   )
 }
 
-export const RenderSix = ({ stepData, setStepData,requiredFields, setRequiredFields }) => {
+export const RenderSix = ({ stepData, setStepData, requiredFields, setRequiredFields }) => {
   const handleChangeStep = (e) => {
     const { name, type, checked, value } = e.target;
     const updated = { ...stepData };
@@ -85,10 +32,6 @@ export const RenderSix = ({ stepData, setStepData,requiredFields, setRequiredFie
     if (stepData.paymentStatus.toLowerCase() === 'partial payment received' || stepData.paymentStatus.toLowerCase() === 'total amount due') {
       fields.push("paymentDate", "dueAmount", "expectedClearDate")
     }
-    fields.push("drawnBank",
-      "chequeClearanceDate",
-      "chequestatus",
-      "paymentRecievedRemarks")
     setRequiredFields(fields)
   }, [setRequiredFields, stepData])
 
@@ -157,6 +100,17 @@ export const RenderSix = ({ stepData, setStepData,requiredFields, setRequiredFie
             </div>
           </div>
         )}
+        <div>
+        <label className="block font-medium">Remarks <span className="text-[#f00]">*</span></label>
+        <textarea
+          rows={3}
+          placeholder="Enter Remarks"
+          name="paymentRecievedRemarks"
+          className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
+          value={stepData.paymentRecievedRemarks}
+          onChange={(e) => handleChangeStep(e)}
+        />
+      </div>
 
         {(stepData.paymentStatus === 'Partial Payment Received' || stepData.paymentStatus === 'Total Amount Due') && (
           <>
