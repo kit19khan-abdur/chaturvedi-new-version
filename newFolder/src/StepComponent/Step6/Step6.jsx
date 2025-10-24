@@ -13,8 +13,67 @@ const Step6 = ({ stepData, setStepData, step, setStep }) => {
     });
   };
 
- const validateFields = () => {
+  const validateFields = () => {
+    // Require paymentModessix only if paymentStatus is NOT Full/Partial Payment Received
+    const status = (stepData?.paymentStatus || '').toLowerCase();
+    if (status !== "total amount due") {
+      if (stepData.paymentModessix.length === 0) {
+        Swal.fire({
+          icon: "warning",
+          title: "Missing Field",
+          html: `Please select at least one <span style=\"color:#f00\"> payment mode </span>`,
+        });
+        return false;
+      }
+    }
+
+
+    // Map payment modes to their required amount fields
+    const chequeFields = [
+      "drawnBank",
+      "chequeClearanceDate",
+      "chequestatus",
+      "chequeAmountsix"
+    ];
+    const modeToField = {
+      "Cash": "cashAmountsix",
+      "NEFT/RTGS": "neftAmountsix",
+      "Google Pay": "googlePayAmountsix",
+      "Debit Card": "debitAmountsix",
+      "Credit Card": "creditAmountsix",
+      "Netbanking": "netbankingAmountsix",
+      "Cheque": chequeFields,
+      "PhonePe": "phonepeAmountsix"
+    };
+
+    // For each selected payment mode, its amount field(s) must be filled
+    for (const mode of stepData.paymentModessix) {
+      const field = modeToField[mode];
+      if (Array.isArray(field)) {
+        for (const f of field) {
+          if (!stepData[f] || String(stepData[f]).trim() === "") {
+            Swal.fire({
+              icon: "warning",
+              title: "Missing Field",
+              html: `Please fill the required field: <span style='color:#e74c3c; font-weight:600; text-transform: capitalize;'>${f}</span>`,
+            });
+            return false;
+          }
+        }
+      } else if (field && (!stepData[field] || String(stepData[field]).trim() === "")) {
+        Swal.fire({
+          icon: "warning",
+          title: "Missing Field",
+          html: `Please fill the required field: <span style='color:#e74c3c; font-weight:600; text-transform: capitalize;'>${field}</span>`,
+        });
+        return false;
+      }
+    }
+
+    // Validate all other required fields as before
     for (let field of requiredFields) {
+      // Skip payment mode amount fields, already checked above
+      if (Object.values(modeToField).includes(field)) continue;
       const value = stepData[field];
       const isEmpty =
         value === undefined ||
@@ -34,6 +93,7 @@ const Step6 = ({ stepData, setStepData, step, setStep }) => {
     }
     return true;
   };
+
 
   const prev = () => {
     setStep((prev) => prev - 1);

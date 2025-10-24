@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 
 
 const MainComponent = () => {
-    const [step, setStep] = useState(6);
+    const [step, setStep] = useState(1);
     const [stepData, setStepData] = useState({
         customertype: "Individual",
         title: "",
@@ -88,6 +88,7 @@ const MainComponent = () => {
         neftAmount: "",
         googlePayAmount: "",
         googlePayDetail: "",
+        paymentModes: [],
         debitAmount: "",
         debitCardDetail: "",
         creditAmount: "",
@@ -107,7 +108,7 @@ const MainComponent = () => {
         chequeClearanceDate: "",
         chequestatus: "",
         paymentRecievedRemarks: "",
-        paymentStatus: "",
+        paymentStatus: "Full Payment Received",
         chequeNumber: "",
         transactionId: "",
         paymentDate: "",

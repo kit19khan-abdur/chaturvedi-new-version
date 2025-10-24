@@ -31,39 +31,53 @@ const Step4 = ({ stepData, step, setStep, setStepData }) => {
     }
   };
 
-  const handleChangeStep = (e) => {
-    const { name, value } = e.target;
+const handleChangeStep = (e) => {
+  const { name, value } = e.target;
 
-    setStepData((prev) => {
-      if (!prev) return prev;
-      const updated = { ...prev, [name]: value };
+  setStepData((prev) => {
+    if (!prev) return prev;
 
-      // Update netTotal/totalPremium/netPayable if amount fields change
-      if (["odAmount", "tpAmount", "gstAmount", "breakingCharge", "waiverAmount"].includes(name)) {
-        const od = Number(updated.odAmount) || 0;
-        const tp = Number(updated.tpAmount) || 0;
-        const hasOd = updated.odAmount !== undefined && updated.odAmount !== null && String(updated.odAmount).trim() !== "";
-        const netTotal = hasOd ? od + tp : tp;
-        const gst = Number(updated.gstAmount) || 0;
-        const totalPremium = Number(netTotal) + gst;
-        const breakingCharge = Number(updated.breakingCharge) || 0;
-        const waiver = Number(updated.waiverAmount) || 0;
-        const netPayable = Number(totalPremium) + breakingCharge - waiver;
+    const updated = { ...prev, [name]: value };
 
-        updated.netTotal = netTotal;
-        updated.totalPremium = totalPremium; 
+    // Only run for relevant amount fields
+    if (["odAmount", "tpAmount", "gstAmount", "breakingCharge", "waiverAmount"].includes(name)) {
+      const od = Number(updated.odAmount) || 0;
+      const tp = Number(updated.tpAmount) || 0;
+      const gst = Number(updated.gstAmount) || 0;
+      const breakingCharge = Number(updated.breakingCharge) || 0;
+      const waiver = Number(updated.waiverAmount) || 0;
+
+      const hasOd =
+        updated.odAmount !== undefined &&
+        updated.odAmount !== null &&
+        String(updated.odAmount).trim() !== "";
+
+      const netTotal = hasOd ? od + tp : tp;
+      const totalPremium = netTotal + gst;
+
+      let netPayable = totalPremium + breakingCharge - waiver;
+
+      // ✅ Prevent negative value and alert
+      if (netPayable < 0) {
+        Swal.fire({
+          icon: "warning",
+          title: "Invalid Amount",
+          text: "Net Payable cannot be less than 0. It has been reset to 0.",
+        });
+        netPayable = 0;
         updated.netPayable = netPayable;
       }
 
-      try {
-        localStorage.setItem("stepData", JSON.stringify(updated));
-      } catch (e) {
-        // ignore storage errors
-      }
-      
-      return updated;
-    });
-  };
+      // Update calculated fields
+      updated.netTotal = netTotal;
+      updated.totalPremium = totalPremium;
+      updated.netPayable = netPayable;
+    }
+
+    return updated;
+  });
+};
+
 
   useEffect(() => {
     document.title = `Chaturvedi Motors Form || on Step4`;

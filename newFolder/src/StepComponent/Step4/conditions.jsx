@@ -1,4 +1,30 @@
 import { useEffect } from "react";
+// Generic handler for any start/end date pair
+function handleDatePairChange({ e, stepData, setStepData, startField, endField }) {
+  const { name, value } = e.target;
+  let newStepData = { ...stepData, [name]: value };
+  if (name === startField && stepData[endField]) {
+    if (new Date(value) > new Date(stepData[endField])) {
+      Swal.fire({
+        icon: "error",
+        title: "Invalid Date",
+        text: "Start date cannot be after end date!",
+      });
+      return;
+    }
+  }
+  if (name === endField && stepData[startField]) {
+    if (new Date(value) < new Date(stepData[startField])) {
+      Swal.fire({
+        icon: "error",
+        title: "Invalid Date",
+        text: "End date cannot be before start date!",
+      });
+      return;
+    }
+  }
+  setStepData(newStepData);
+}
 
 // Helper to compute and update amounts
 function computeAndUpdateAmounts(stepData, setStepData) {
@@ -27,6 +53,7 @@ function computeAndUpdateAmounts(stepData, setStepData) {
   }
 }
 import Select, { components } from "react-select";
+import Swal from "sweetalert2";
 
 
 
@@ -274,7 +301,7 @@ export const condition1 = ({
   stepData,
   setStepData,
   setRequiredFields,
-}) => {
+ }) => {
   const data = Alloption(stepData, setStepData);
   const {
     addonOptions,
@@ -285,7 +312,7 @@ export const condition1 = ({
     insurerOptions,
   } = data;
 
-  useEffect(() => {
+   useEffect(() => {
     const field = [];
     if (stepData.paCover.toLowerCase() === "yes") {
       field.push(
@@ -298,7 +325,6 @@ export const condition1 = ({
     field.push(
       "newODPolicyStartDate",
       "newODPolicyEndDate",
-      "newTPPolicyStartDate",
       "brokerAgencyName",
       "policyNumber",
       "insurerName",
@@ -308,7 +334,7 @@ export const condition1 = ({
     setRequiredFields(field);
     // compute derived amount fields and persist
     computeAndUpdateAmounts(stepData, setStepData);
-  }, [setRequiredFields, stepData, setStepData]);
+   }, [setRequiredFields, stepData, setStepData]);
   return (
     <>
       <div className="capitalize grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -321,7 +347,7 @@ export const condition1 = ({
               type="date"
               name="newODPolicyStartDate"
               value={stepData.newODPolicyStartDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newOdPolicyStartDate', endField: 'newOdPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
@@ -333,7 +359,7 @@ export const condition1 = ({
               type="date"
               name="newODPolicyEndDate"
               value={stepData.newODPolicyEndDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newODPolicyStartDate', endField: 'newODPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
@@ -345,7 +371,7 @@ export const condition1 = ({
               type="date"
               name="newTPPolicyStartDate"
               value={stepData.newTPPolicyStartDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
               className={`w-full border px-4 py-2 rounded`}
             />
           </div>
@@ -357,7 +383,7 @@ export const condition1 = ({
               type="date"
               name="newTPPolicyEndDate"
               value={stepData.newTPPolicyEndDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
               className={`w-full border px-4 py-2 rounded`}
             />
           </div>
@@ -455,11 +481,13 @@ export const condition1 = ({
             type="date"
             name="policyIssueDate"
             value={stepData.policyIssueDate}
-            onChange={handleChangeStep}
+            onChange={e => {
+              // Example: you can add similar logic for policyIssueDate if needed
+              handleChangeStep(e);
+            }}
             className={`w-full border px-4 py-2 rounded`}
           />
         </div>
-
         <div>
           <label>
             Addon Covers <span className="text-[#f00]">*</span>
@@ -530,7 +558,7 @@ export const condition1 = ({
                 name="paStartDate"
                 type="date"
                 value={stepData.paStartDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
             </div>
@@ -542,7 +570,7 @@ export const condition1 = ({
                 name="paEndDate"
                 type="date"
                 value={stepData.paEndDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2 rounded`}
               />
             </div>
@@ -714,7 +742,7 @@ export const condition2 = ({
               type="date"
               name="newTPPolicyStartDate"
               value={stepData.newTPPolicyStartDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
               className={`w-full border px-4 py-2 rounded`}
             />
           </div>
@@ -726,7 +754,7 @@ export const condition2 = ({
               type="date"
               name="newTPPolicyEndDate"
               value={stepData.newTPPolicyEndDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
               className={`w-full border px-4 py-2 rounded`}
             />
           </div>
@@ -863,7 +891,7 @@ export const condition2 = ({
                 name="paStartDate"
                 type="date"
                 value={stepData.paStartDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
             </div>
@@ -875,7 +903,7 @@ export const condition2 = ({
                 name="paEndDate"
                 type="date"
                 value={stepData.paEndDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2 rounded`}
               />
             </div>
@@ -976,8 +1004,8 @@ export const condition2 = ({
             value={
               Number(
                 stepData.totalPremium +
-                  stepData.breakingCharge -
-                  stepData.waiverAmount
+                stepData.breakingCharge -
+                stepData.waiverAmount
               ) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
@@ -1042,7 +1070,7 @@ export const condition3 = ({
               type="date"
               name="newPolicyStartDate"
               value={stepData.newPolicyStartDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newPolicyStartDate', endField: 'newPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
@@ -1054,7 +1082,7 @@ export const condition3 = ({
               type="date"
               name="newPolicyEndDate"
               value={stepData.newPolicyEndDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newPolicyStartDate', endField: 'newPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
@@ -1246,7 +1274,7 @@ export const condition3 = ({
                 name="paStartDate"
                 type="date"
                 value={stepData.paStartDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
             </div>
@@ -1258,7 +1286,7 @@ export const condition3 = ({
                 name="paEndDate"
                 type="date"
                 value={stepData.paEndDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2 rounded`}
               />
             </div>
@@ -1371,8 +1399,8 @@ export const condition3 = ({
             value={
               Number(
                 stepData.totalPremium +
-                  stepData.breakingCharge -
-                  stepData.waiverAmount
+                stepData.breakingCharge -
+                stepData.waiverAmount
               ) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
@@ -1438,7 +1466,7 @@ export const condition4 = ({
               type="date"
               name="newPolicyStartDate"
               value={stepData.newPolicyStartDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newPolicyStartDate', endField: 'newPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
@@ -1450,7 +1478,7 @@ export const condition4 = ({
               type="date"
               name="newPolicyEndDate"
               value={stepData.newPolicyEndDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newPolicyStartDate', endField: 'newPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
@@ -1642,7 +1670,7 @@ export const condition4 = ({
                 name="paStartDate"
                 type="date"
                 value={stepData.paStartDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
             </div>
@@ -1654,7 +1682,7 @@ export const condition4 = ({
                 name="paEndDate"
                 type="date"
                 value={stepData.paEndDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2 rounded`}
               />
             </div>
@@ -1767,8 +1795,8 @@ export const condition4 = ({
             value={
               Number(
                 stepData.totalPremium +
-                  stepData.breakingCharge -
-                  stepData.waiverAmount
+                stepData.breakingCharge -
+                stepData.waiverAmount
               ) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
@@ -1808,7 +1836,8 @@ export const condition5 = ({
       );
     }
     field.push(
-      "newTPPolicyStartDate",
+      "newODPolicyStartDate",
+      "newODPolicyEndDate",
       "brokerAgencyName",
       "policyNumber",
       "insurerName",
@@ -1826,25 +1855,25 @@ export const condition5 = ({
         <>
           <div>
             <label>
-              New Policy Start Date <span className="text-[#f00]">*</span>
+              New OD Policy Start Date <span className="text-[#f00]">*</span>
             </label>
             <input
               type="date"
-              name="newPolicyStartDate"
-              value={stepData.newPolicyStartDate}
-              onChange={handleChangeStep}
+              name="newODPolicyStartDate"
+              value={stepData.newODPolicyStartDate}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newODPolicyStartDate', endField: 'newODPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
           <div>
             <label>
-              New Policy End Date <span className="text-[#f00]">*</span>
+              New OD Policy End Date <span className="text-[#f00]">*</span>
             </label>
             <input
               type="date"
-              name="newPolicyEndDate"
-              value={stepData.newPolicyEndDate}
-              onChange={handleChangeStep}
+              name="newODPolicyEndDate"
+              value={stepData.newODPolicyEndDate}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newODPolicyStartDate', endField: 'newODPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
@@ -2036,7 +2065,7 @@ export const condition5 = ({
                 name="paStartDate"
                 type="date"
                 value={stepData.paStartDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
             </div>
@@ -2048,7 +2077,7 @@ export const condition5 = ({
                 name="paEndDate"
                 type="date"
                 value={stepData.paEndDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2 rounded`}
               />
             </div>
@@ -2101,7 +2130,7 @@ export const condition5 = ({
             name="netTotal"
             value={
               Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.tpAmount || Number(0)) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -2127,8 +2156,8 @@ export const condition5 = ({
             name="totalPremium"
             value={
               Number(stepData.gstAmount || 0) +
-                Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.odAmount || 0) +
+              Number(stepData.tpAmount || 0) || Number(0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -2166,8 +2195,8 @@ export const condition5 = ({
             value={
               Number(
                 stepData.totalPremium +
-                  stepData.breakingCharge -
-                  stepData.waiverAmount
+                stepData.breakingCharge -
+                stepData.waiverAmount
               ) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
@@ -2207,9 +2236,6 @@ export const condition6 = ({
       );
     }
     field.push(
-      "newODPolicyStartDate",
-      "newODPolicyEndDate",
-      "newTPPolicyStartDate",
       "brokerAgencyName",
       "policyNumber",
       "insurerName",
@@ -2355,7 +2381,7 @@ export const condition6 = ({
                 name="paStartDate"
                 type="date"
                 value={stepData.paStartDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
             </div>
@@ -2367,7 +2393,7 @@ export const condition6 = ({
                 name="paEndDate"
                 type="date"
                 value={stepData.paEndDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2 rounded`}
               />
             </div>
@@ -2420,7 +2446,7 @@ export const condition6 = ({
             name="netTotal"
             value={
               Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.tpAmount || Number(0)) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -2446,8 +2472,8 @@ export const condition6 = ({
             name="totalPremium"
             value={
               Number(stepData.gstAmount || 0) +
-                Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.odAmount || 0) +
+              Number(stepData.tpAmount || 0) || Number(0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -2665,7 +2691,7 @@ export const condition7 = ({
                 name="paStartDate"
                 type="date"
                 value={stepData.paStartDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
             </div>
@@ -2677,7 +2703,7 @@ export const condition7 = ({
                 name="paEndDate"
                 type="date"
                 value={stepData.paEndDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2 rounded`}
               />
             </div>
@@ -2730,7 +2756,7 @@ export const condition7 = ({
             name="netTotal"
             value={
               Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.tpAmount || Number(0)) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -2756,8 +2782,8 @@ export const condition7 = ({
             name="totalPremium"
             value={
               Number(stepData.gstAmount || 0) +
-                Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.odAmount || 0) +
+              Number(stepData.tpAmount || 0) || Number(0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -2824,6 +2850,7 @@ export const condition8 = ({
     }
     field.push(
       "newTPPolicyStartDate",
+      "newTPPolicyEndDate",
       "brokerAgencyName",
       "policyNumber",
       "insurerName",
@@ -2845,7 +2872,7 @@ export const condition8 = ({
               type="date"
               name="newTPPolicyStartDate"
               value={stepData.newTPPolicyStartDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
               className={`w-full border px-4 py-2 rounded`}
             />
           </div>
@@ -2857,7 +2884,7 @@ export const condition8 = ({
               type="date"
               name="newTPPolicyEndDate"
               value={stepData.newTPPolicyEndDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
               className={`w-full border px-4 py-2 rounded`}
             />
           </div>
@@ -2995,7 +3022,7 @@ export const condition8 = ({
                 name="paStartDate"
                 type="date"
                 value={stepData.paStartDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
             </div>
@@ -3007,7 +3034,7 @@ export const condition8 = ({
                 name="paEndDate"
                 type="date"
                 value={stepData.paEndDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2 rounded`}
               />
             </div>
@@ -3048,7 +3075,7 @@ export const condition8 = ({
             name="netTotal"
             value={
               Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.tpAmount || Number(0)) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -3074,8 +3101,8 @@ export const condition8 = ({
             name="totalPremium"
             value={
               Number(stepData.gstAmount || 0) +
-                Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.odAmount || 0) +
+              Number(stepData.tpAmount || 0) || Number(0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -3141,9 +3168,6 @@ export const condition9 = ({
       );
     }
     field.push(
-      "newODPolicyStartDate",
-      "newODPolicyEndDate",
-      "newTPPolicyStartDate",
       "brokerAgencyName",
       "policyNumber",
       "insurerName",
@@ -3289,7 +3313,7 @@ export const condition9 = ({
                 name="paStartDate"
                 type="date"
                 value={stepData.paStartDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
             </div>
@@ -3301,7 +3325,7 @@ export const condition9 = ({
                 name="paEndDate"
                 type="date"
                 value={stepData.paEndDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2 rounded`}
               />
             </div>
@@ -3342,7 +3366,7 @@ export const condition9 = ({
             name="netTotal"
             value={
               Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.tpAmount || Number(0)) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -3368,8 +3392,8 @@ export const condition9 = ({
             name="totalPremium"
             value={
               Number(stepData.gstAmount || 0) +
-                Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.odAmount || 0) +
+              Number(stepData.tpAmount || 0) || Number(0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -3445,6 +3469,7 @@ export const condition10 = ({
       "newODPolicyStartDate",
       "newODPolicyEndDate",
       "newTPPolicyStartDate",
+      "newTPPolicyEndDate",
       "brokerAgencyName",
       "policyNumber",
       "insurerName",
@@ -3465,7 +3490,7 @@ export const condition10 = ({
             type="date"
             name="newODPolicyStartDate"
             value={stepData.newODPolicyStartDate}
-            onChange={handleChangeStep}
+            onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newODPolicyStartDate', endField: 'newODPolicyEndDate' })}
             className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
           />
         </div>
@@ -3477,7 +3502,7 @@ export const condition10 = ({
             type="date"
             name="newODPolicyEndDate"
             value={stepData.newODPolicyEndDate}
-            onChange={handleChangeStep}
+            onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newODPolicyStartDate', endField: 'newODPolicyEndDate' })}
             className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
           />
         </div>
@@ -3490,7 +3515,7 @@ export const condition10 = ({
               type="date"
               name="newTPPolicyStartDate"
               value={stepData.newTPPolicyStartDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
               className={`w-full border px-4 py-2 rounded`}
             />
           </div>
@@ -3502,7 +3527,7 @@ export const condition10 = ({
               type="date"
               name="newTPPolicyEndDate"
               value={stepData.newTPPolicyEndDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
               className={`w-full border px-4 py-2 rounded`}
             />
           </div>
@@ -3695,7 +3720,7 @@ export const condition10 = ({
                 name="paStartDate"
                 type="date"
                 value={stepData.paStartDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
             </div>
@@ -3707,7 +3732,7 @@ export const condition10 = ({
                 name="paEndDate"
                 type="date"
                 value={stepData.paEndDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2 rounded`}
               />
             </div>
@@ -3760,7 +3785,7 @@ export const condition10 = ({
             name="netTotal"
             value={
               Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.tpAmount || Number(0)) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -3786,8 +3811,8 @@ export const condition10 = ({
             name="totalPremium"
             value={
               Number(stepData.gstAmount || 0) +
-                Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.odAmount || 0) +
+              Number(stepData.tpAmount || 0) || Number(0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -3884,7 +3909,7 @@ export const condition11 = ({
               type="date"
               name="newODPolicyStartDate"
               value={stepData.newODPolicyStartDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newODPolicyStartDate', endField: 'newODPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
@@ -3896,34 +3921,36 @@ export const condition11 = ({
               type="date"
               name="newODPolicyEndDate"
               value={stepData.newODPolicyEndDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newODPolicyStartDate', endField: 'newODPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
-          <div className="">
-            <label>
-              New TP Policy Start Date <span className="text-[#f00]">*</span>
-            </label>
-            <input
-              type="date"
-              name="newTPPolicyStartDate"
-              value={stepData.newTPPolicyStartDate}
-              onChange={handleChangeStep}
-              className={`w-full border px-4 py-2 rounded`}
-            />
-          </div>
-          <div>
-            <label>
-              New TP Policy End Date <span className="text-[#f00]">*</span>
-            </label>
-            <input
-              type="date"
-              name="newTPPolicyEndDate"
-              value={stepData.newTPPolicyEndDate}
-              onChange={handleChangeStep}
-              className={`w-full border px-4 py-2 rounded`}
-            />
-          </div>
+          <>
+            <div className="">
+              <label>
+                New TP Policy Start Date <span className="text-[#f00]">*</span>
+              </label>
+              <input
+                type="date"
+                name="newTPPolicyStartDate"
+                value={stepData.newTPPolicyStartDate}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
+                className={`w-full border px-4 py-2 rounded`}
+              />
+            </div>
+            <div>
+              <label>
+                New TP Policy End Date <span className="text-[#f00]">*</span>
+              </label>
+              <input
+                type="date"
+                name="newTPPolicyEndDate"
+                value={stepData.newTPPolicyEndDate}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
+                className={`w-full border px-4 py-2 rounded`}
+              />
+            </div>
+          </>
         </>
         <div>
           <label>
@@ -4111,7 +4138,7 @@ export const condition11 = ({
                 name="paStartDate"
                 type="date"
                 value={stepData.paStartDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
             </div>
@@ -4123,7 +4150,7 @@ export const condition11 = ({
                 name="paEndDate"
                 type="date"
                 value={stepData.paEndDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2 rounded`}
               />
             </div>
@@ -4176,7 +4203,7 @@ export const condition11 = ({
             name="netTotal"
             value={
               Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.tpAmount || Number(0)) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -4202,8 +4229,8 @@ export const condition11 = ({
             name="totalPremium"
             value={
               Number(stepData.gstAmount || 0) +
-                Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.odAmount || 0) +
+              Number(stepData.tpAmount || 0) || Number(0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -4300,7 +4327,7 @@ export const condition12 = ({
               type="date"
               name="newODPolicyStartDate"
               value={stepData.newODPolicyStartDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newODPolicyStartDate', endField: 'newODPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
@@ -4312,34 +4339,36 @@ export const condition12 = ({
               type="date"
               name="newODPolicyEndDate"
               value={stepData.newODPolicyEndDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newOdPolicyStartDate', endField: 'newOdPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
-          <div className="">
-            <label>
-              New TP Policy Start Date <span className="text-[#f00]">*</span>
-            </label>
-            <input
-              type="date"
-              name="newTPPolicyStartDate"
-              value={stepData.newTPPolicyStartDate}
-              onChange={handleChangeStep}
-              className={`w-full border px-4 py-2 rounded`}
-            />
-          </div>
-          <div>
-            <label>
-              New TP Policy End Date <span className="text-[#f00]">*</span>
-            </label>
-            <input
-              type="date"
-              name="newTPPolicyEndDate"
-              value={stepData.newTPPolicyEndDate}
-              onChange={handleChangeStep}
-              className={`w-full border px-4 py-2 rounded`}
-            />
-          </div>
+          <>
+            <div className="">
+              <label>
+                New TP Policy Start Date <span className="text-[#f00]">*</span>
+              </label>
+              <input
+                type="date"
+                name="newTPPolicyStartDate"
+                value={stepData.newTPPolicyStartDate}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
+                className={`w-full border px-4 py-2 rounded`}
+              />
+            </div>
+            <div>
+              <label>
+                New TP Policy End Date <span className="text-[#f00]">*</span>
+              </label>
+              <input
+                type="date"
+                name="newTPPolicyEndDate"
+                value={stepData.newTPPolicyEndDate}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
+                className={`w-full border px-4 py-2 rounded`}
+              />
+            </div>
+          </>
         </>
         <div>
           <label>
@@ -4527,7 +4556,7 @@ export const condition12 = ({
                 name="paStartDate"
                 type="date"
                 value={stepData.paStartDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
             </div>
@@ -4539,7 +4568,7 @@ export const condition12 = ({
                 name="paEndDate"
                 type="date"
                 value={stepData.paEndDate}
-                onChange={handleChangeStep}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'paStartDate', endField: 'paEndDate' })}
                 className={`w-full border custom-select px-4 py-2 rounded`}
               />
             </div>
@@ -4592,7 +4621,7 @@ export const condition12 = ({
             name="netTotal"
             value={
               Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.tpAmount || Number(0)) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -4618,8 +4647,8 @@ export const condition12 = ({
             name="totalPremium"
             value={
               Number(stepData.gstAmount || 0) +
-                Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.odAmount || 0) +
+              Number(stepData.tpAmount || 0) || Number(0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -4716,7 +4745,7 @@ export const condition13 = ({
               type="date"
               name="newODPolicyStartDate"
               value={stepData.newODPolicyStartDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newOdPolicyStartDate', endField: 'newOdPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
@@ -4728,34 +4757,36 @@ export const condition13 = ({
               type="date"
               name="newODPolicyEndDate"
               value={stepData.newODPolicyEndDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newOdPolicyStartDate', endField: 'newOdPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
-          <div className="">
-            <label>
-              New TP Policy Start Date <span className="text-[#f00]">*</span>
-            </label>
-            <input
-              type="date"
-              name="newTPPolicyStartDate"
-              value={stepData.newTPPolicyStartDate}
-              onChange={handleChangeStep}
-              className={`w-full border px-4 py-2 rounded`}
-            />
-          </div>
-          <div>
-            <label>
-              New TP Policy End Date <span className="text-[#f00]">*</span>
-            </label>
-            <input
-              type="date"
-              name="newTPPolicyEndDate"
-              value={stepData.newTPPolicyEndDate}
-              onChange={handleChangeStep}
-              className={`w-full border px-4 py-2 rounded`}
-            />
-          </div>
+          <>
+            <div className="">
+              <label>
+                New TP Policy Start Date <span className="text-[#f00]">*</span>
+              </label>
+              <input
+                type="date"
+                name="newTPPolicyStartDate"
+                value={stepData.newTPPolicyStartDate}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
+                className={`w-full border px-4 py-2 rounded`}
+              />
+            </div>
+            <div>
+              <label>
+                New TP Policy End Date <span className="text-[#f00]">*</span>
+              </label>
+              <input
+                type="date"
+                name="newTPPolicyEndDate"
+                value={stepData.newTPPolicyEndDate}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
+                className={`w-full border px-4 py-2 rounded`}
+              />
+            </div>
+          </>
         </>
         <div>
           <label>
@@ -5008,7 +5039,7 @@ export const condition13 = ({
             name="netTotal"
             value={
               Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.tpAmount || Number(0)) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -5034,8 +5065,8 @@ export const condition13 = ({
             name="totalPremium"
             value={
               Number(stepData.gstAmount || 0) +
-                Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.odAmount || 0) +
+              Number(stepData.tpAmount || 0) || Number(0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -5131,7 +5162,7 @@ export const condition14 = ({
               type="date"
               name="newODPolicyStartDate"
               value={stepData.newODPolicyStartDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newOdPolicyStartDate', endField: 'newOdPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
@@ -5143,7 +5174,7 @@ export const condition14 = ({
               type="date"
               name="newODPolicyEndDate"
               value={stepData.newODPolicyEndDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newOdPolicyStartDate', endField: 'newOdPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
@@ -5380,7 +5411,7 @@ export const condition14 = ({
             name="netTotal"
             value={
               Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.tpAmount || Number(0)) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -5406,8 +5437,8 @@ export const condition14 = ({
             name="totalPremium"
             value={
               Number(stepData.gstAmount || 0) +
-                Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.odAmount || 0) +
+              Number(stepData.tpAmount || 0) || Number(0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -5503,7 +5534,7 @@ export const condition15 = ({
               type="date"
               name="newODPolicyStartDate"
               value={stepData.newODPolicyStartDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newOdPolicyStartDate', endField: 'newOdPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
@@ -5515,34 +5546,36 @@ export const condition15 = ({
               type="date"
               name="newODPolicyEndDate"
               value={stepData.newODPolicyEndDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newOdPolicyStartDate', endField: 'newOdPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
-          <div className="">
-            <label>
-              New TP Policy Start Date <span className="text-[#f00]">*</span>
-            </label>
-            <input
-              type="date"
-              name="newTPPolicyStartDate"
-              value={stepData.newTPPolicyStartDate}
-              onChange={handleChangeStep}
-              className={`w-full border px-4 py-2 rounded`}
-            />
-          </div>
-          <div>
-            <label>
-              New TP Policy End Date <span className="text-[#f00]">*</span>
-            </label>
-            <input
-              type="date"
-              name="newTPPolicyEndDate"
-              value={stepData.newTPPolicyEndDate}
-              onChange={handleChangeStep}
-              className={`w-full border px-4 py-2 rounded`}
-            />
-          </div>
+          <>
+            <div className="">
+              <label>
+                New TP Policy Start Date <span className="text-[#f00]">*</span>
+              </label>
+              <input
+                type="date"
+                name="newTPPolicyStartDate"
+                value={stepData.newTPPolicyStartDate}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
+                className={`w-full border px-4 py-2 rounded`}
+              />
+            </div>
+            <div>
+              <label>
+                New TP Policy End Date <span className="text-[#f00]">*</span>
+              </label>
+              <input
+                type="date"
+                name="newTPPolicyEndDate"
+                value={stepData.newTPPolicyEndDate}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
+                className={`w-full border px-4 py-2 rounded`}
+              />
+            </div>
+          </>
         </>
         <div>
           <label>
@@ -5795,7 +5828,7 @@ export const condition15 = ({
             name="netTotal"
             value={
               Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.tpAmount || Number(0)) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -5821,8 +5854,8 @@ export const condition15 = ({
             name="totalPremium"
             value={
               Number(stepData.gstAmount || 0) +
-                Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.odAmount || 0) +
+              Number(stepData.tpAmount || 0) || Number(0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -5919,7 +5952,7 @@ export const condition16 = ({
               type="date"
               name="newODPolicyStartDate"
               value={stepData.newODPolicyStartDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newOdPolicyStartDate', endField: 'newOdPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
@@ -5931,34 +5964,36 @@ export const condition16 = ({
               type="date"
               name="newODPolicyEndDate"
               value={stepData.newODPolicyEndDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newOdPolicyStartDate', endField: 'newOdPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
-          <div className="">
-            <label>
-              New TP Policy Start Date <span className="text-[#f00]">*</span>
-            </label>
-            <input
-              type="date"
-              name="newTPPolicyStartDate"
-              value={stepData.newTPPolicyStartDate}
-              onChange={handleChangeStep}
-              className={`w-full border px-4 py-2 rounded`}
-            />
-          </div>
-          <div>
-            <label>
-              New TP Policy End Date <span className="text-[#f00]">*</span>
-            </label>
-            <input
-              type="date"
-              name="newTPPolicyEndDate"
-              value={stepData.newTPPolicyEndDate}
-              onChange={handleChangeStep}
-              className={`w-full border px-4 py-2 rounded`}
-            />
-          </div>
+          <>
+            <div className="">
+              <label>
+                New TP Policy Start Date <span className="text-[#f00]">*</span>
+              </label>
+              <input
+                type="date"
+                name="newTPPolicyStartDate"
+                value={stepData.newTPPolicyStartDate}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
+                className={`w-full border px-4 py-2 rounded`}
+              />
+            </div>
+            <div>
+              <label>
+                New TP Policy End Date <span className="text-[#f00]">*</span>
+              </label>
+              <input
+                type="date"
+                name="newTPPolicyEndDate"
+                value={stepData.newTPPolicyEndDate}
+                onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
+                className={`w-full border px-4 py-2 rounded`}
+              />
+            </div>
+          </>
         </>
         <div>
           <label>
@@ -6211,7 +6246,7 @@ export const condition16 = ({
             name="netTotal"
             value={
               Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.tpAmount || Number(0)) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -6237,8 +6272,8 @@ export const condition16 = ({
             name="totalPremium"
             value={
               Number(stepData.gstAmount || 0) +
-                Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.odAmount || 0) +
+              Number(stepData.tpAmount || 0) || Number(0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -6312,6 +6347,7 @@ export const condition17 = ({
     }
     field.push(
       "newTPPolicyStartDate",
+      "newTPPolicyEndDate",
       "brokerAgencyName",
       "policyNumber",
       "insurerName",
@@ -6333,7 +6369,7 @@ export const condition17 = ({
               type="date"
               name="newTPPolicyStartDate"
               value={stepData.newTPPolicyStartDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
               className={`w-full border px-4 py-2 rounded`}
             />
           </div>
@@ -6345,7 +6381,7 @@ export const condition17 = ({
               type="date"
               name="newTPPolicyEndDate"
               value={stepData.newTPPolicyEndDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
               className={`w-full border px-4 py-2 rounded`}
             />
           </div>
@@ -6535,7 +6571,7 @@ export const condition17 = ({
             name="netTotal"
             value={
               Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.tpAmount || Number(0)) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -6561,8 +6597,8 @@ export const condition17 = ({
             name="totalPremium"
             value={
               Number(stepData.gstAmount || 0) +
-                Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.odAmount || 0) +
+              Number(stepData.tpAmount || 0) || Number(0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -6638,6 +6674,7 @@ export const condition18 = ({
       "newODPolicyStartDate",
       "newODPolicyEndDate",
       "newTPPolicyStartDate",
+      "newTPPolicyEndDate",
       "brokerAgencyName",
       "policyNumber",
       "insurerName",
@@ -6650,31 +6687,31 @@ export const condition18 = ({
   return (
     <>
       <div className="capitalize grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label>
+            New OD Policy Start Date <span className="text-[#f00]">*</span>
+          </label>
+          <input
+            type="date"
+            name="newODPolicyStartDate"
+            value={stepData.newODPolicyStartDate}
+            onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newOdPolicyStartDate', endField: 'newOdPolicyEndDate' })}
+            className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
+          />
+        </div>
+        <div>
+          <label>
+            New OD Policy End Date <span className="text-[#f00]">*</span>
+          </label>
+          <input
+            type="date"
+            name="newODPolicyEndDate"
+            value={stepData.newODPolicyEndDate}
+            onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newOdPolicyStartDate', endField: 'newOdPolicyEndDate' })}
+            className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
+          />
+        </div>
         <>
-          <div>
-            <label>
-              New OD Policy Start Date <span className="text-[#f00]">*</span>
-            </label>
-            <input
-              type="date"
-              name="newODPolicyStartDate"
-              value={stepData.newODPolicyStartDate}
-              onChange={handleChangeStep}
-              className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
-            />
-          </div>
-          <div>
-            <label>
-              New OD Policy End Date <span className="text-[#f00]">*</span>
-            </label>
-            <input
-              type="date"
-              name="newODPolicyEndDate"
-              value={stepData.newODPolicyEndDate}
-              onChange={handleChangeStep}
-              className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
-            />
-          </div>
           <div className="">
             <label>
               New TP Policy Start Date <span className="text-[#f00]">*</span>
@@ -6683,7 +6720,7 @@ export const condition18 = ({
               type="date"
               name="newTPPolicyStartDate"
               value={stepData.newTPPolicyStartDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
               className={`w-full border px-4 py-2 rounded`}
             />
           </div>
@@ -6695,7 +6732,7 @@ export const condition18 = ({
               type="date"
               name="newTPPolicyEndDate"
               value={stepData.newTPPolicyEndDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
               className={`w-full border px-4 py-2 rounded`}
             />
           </div>
@@ -6938,7 +6975,7 @@ export const condition18 = ({
             name="netTotal"
             value={
               Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.tpAmount || Number(0)) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -6964,8 +7001,8 @@ export const condition18 = ({
             name="totalPremium"
             value={
               Number(stepData.gstAmount || 0) +
-                Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.odAmount || 0) +
+              Number(stepData.tpAmount || 0) || Number(0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -7041,6 +7078,7 @@ export const condition19 = ({
       "newODPolicyStartDate",
       "newODPolicyEndDate",
       "newTPPolicyStartDate",
+      "newTPPolicyEndDate",
       "brokerAgencyName",
       "policyNumber",
       "insurerName",
@@ -7053,31 +7091,31 @@ export const condition19 = ({
   return (
     <>
       <div className="capitalize grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label>
+            New OD Policy Start Date <span className="text-[#f00]">*</span>
+          </label>
+          <input
+            type="date"
+            name="newODPolicyStartDate"
+            value={stepData.newODPolicyStartDate}
+            onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newOdPolicyStartDate', endField: 'newOdPolicyEndDate' })}
+            className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
+          />
+        </div>
+        <div>
+          <label>
+            New OD Policy End Date <span className="text-[#f00]">*</span>
+          </label>
+          <input
+            type="date"
+            name="newODPolicyEndDate"
+            value={stepData.newODPolicyEndDate}
+            onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newOdPolicyStartDate', endField: 'newOdPolicyEndDate' })}
+            className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
+          />
+        </div>
         <>
-          <div>
-            <label>
-              New OD Policy Start Date <span className="text-[#f00]">*</span>
-            </label>
-            <input
-              type="date"
-              name="newODPolicyStartDate"
-              value={stepData.newODPolicyStartDate}
-              onChange={handleChangeStep}
-              className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
-            />
-          </div>
-          <div>
-            <label>
-              New OD Policy End Date <span className="text-[#f00]">*</span>
-            </label>
-            <input
-              type="date"
-              name="newODPolicyEndDate"
-              value={stepData.newODPolicyEndDate}
-              onChange={handleChangeStep}
-              className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
-            />
-          </div>
           <div className="">
             <label>
               New TP Policy Start Date <span className="text-[#f00]">*</span>
@@ -7086,7 +7124,7 @@ export const condition19 = ({
               type="date"
               name="newTPPolicyStartDate"
               value={stepData.newTPPolicyStartDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
               className={`w-full border px-4 py-2 rounded`}
             />
           </div>
@@ -7098,7 +7136,7 @@ export const condition19 = ({
               type="date"
               name="newTPPolicyEndDate"
               value={stepData.newTPPolicyEndDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
               className={`w-full border px-4 py-2 rounded`}
             />
           </div>
@@ -7341,7 +7379,7 @@ export const condition19 = ({
             name="netTotal"
             value={
               Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.tpAmount || Number(0)) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -7367,8 +7405,8 @@ export const condition19 = ({
             name="totalPremium"
             value={
               Number(stepData.gstAmount || 0) +
-                Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.odAmount || 0) +
+              Number(stepData.tpAmount || 0) || Number(0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -7456,31 +7494,31 @@ export const condition20 = ({
   return (
     <>
       <div className="capitalize grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label>
+            New OD Policy Start Date <span className="text-[#f00]">*</span>
+          </label>
+          <input
+            type="date"
+            name="newODPolicyStartDate"
+            value={stepData.newODPolicyStartDate}
+            onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newOdPolicyStartDate', endField: 'newOdPolicyEndDate' })}
+            className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
+          />
+        </div>
+        <div>
+          <label>
+            New OD Policy End Date <span className="text-[#f00]">*</span>
+          </label>
+          <input
+            type="date"
+            name="newODPolicyEndDate"
+            value={stepData.newODPolicyEndDate}
+            onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newOdPolicyStartDate', endField: 'newOdPolicyEndDate' })}
+            className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
+          />
+        </div>
         <>
-          <div>
-            <label>
-              New OD Policy Start Date <span className="text-[#f00]">*</span>
-            </label>
-            <input
-              type="date"
-              name="newODPolicyStartDate"
-              value={stepData.newODPolicyStartDate}
-              onChange={handleChangeStep}
-              className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
-            />
-          </div>
-          <div>
-            <label>
-              New OD Policy End Date <span className="text-[#f00]">*</span>
-            </label>
-            <input
-              type="date"
-              name="newODPolicyEndDate"
-              value={stepData.newODPolicyEndDate}
-              onChange={handleChangeStep}
-              className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
-            />
-          </div>
           <div className="">
             <label>
               New TP Policy Start Date <span className="text-[#f00]">*</span>
@@ -7489,7 +7527,7 @@ export const condition20 = ({
               type="date"
               name="newTPPolicyStartDate"
               value={stepData.newTPPolicyStartDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
               className={`w-full border px-4 py-2 rounded`}
             />
           </div>
@@ -7501,7 +7539,7 @@ export const condition20 = ({
               type="date"
               name="newTPPolicyEndDate"
               value={stepData.newTPPolicyEndDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
               className={`w-full border px-4 py-2 rounded`}
             />
           </div>
@@ -7744,7 +7782,7 @@ export const condition20 = ({
             name="netTotal"
             value={
               Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.tpAmount || Number(0)) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -7770,8 +7808,8 @@ export const condition20 = ({
             name="totalPremium"
             value={
               Number(stepData.gstAmount || 0) +
-                Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.odAmount || 0) +
+              Number(stepData.tpAmount || 0) || Number(0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -7859,31 +7897,31 @@ export const condition21 = ({
   return (
     <>
       <div className="capitalize grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label>
+            New OD Policy Start Date <span className="text-[#f00]">*</span>
+          </label>
+          <input
+            type="date"
+            name="newODPolicyStartDate"
+            value={stepData.newODPolicyStartDate}
+            onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newOdPolicyStartDate', endField: 'newOdPolicyEndDate' })}
+            className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
+          />
+        </div>
+        <div>
+          <label>
+            New OD Policy End Date <span className="text-[#f00]">*</span>
+          </label>
+          <input
+            type="date"
+            name="newODPolicyEndDate"
+            value={stepData.newODPolicyEndDate}
+            onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newOdPolicyStartDate', endField: 'newOdPolicyEndDate' })}
+            className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
+          />
+        </div>
         <>
-          <div>
-            <label>
-              New OD Policy Start Date <span className="text-[#f00]">*</span>
-            </label>
-            <input
-              type="date"
-              name="newODPolicyStartDate"
-              value={stepData.newODPolicyStartDate}
-              onChange={handleChangeStep}
-              className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
-            />
-          </div>
-          <div>
-            <label>
-              New OD Policy End Date <span className="text-[#f00]">*</span>
-            </label>
-            <input
-              type="date"
-              name="newODPolicyEndDate"
-              value={stepData.newODPolicyEndDate}
-              onChange={handleChangeStep}
-              className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
-            />
-          </div>
           <div className="">
             <label>
               New TP Policy Start Date <span className="text-[#f00]">*</span>
@@ -7892,7 +7930,7 @@ export const condition21 = ({
               type="date"
               name="newTPPolicyStartDate"
               value={stepData.newTPPolicyStartDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
               className={`w-full border px-4 py-2 rounded`}
             />
           </div>
@@ -7904,7 +7942,7 @@ export const condition21 = ({
               type="date"
               name="newTPPolicyEndDate"
               value={stepData.newTPPolicyEndDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
               className={`w-full border px-4 py-2 rounded`}
             />
           </div>
@@ -8159,7 +8197,7 @@ export const condition21 = ({
             name="netTotal"
             value={
               Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.tpAmount || Number(0)) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -8185,8 +8223,8 @@ export const condition21 = ({
             name="totalPremium"
             value={
               Number(stepData.gstAmount || 0) +
-                Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.odAmount || 0) +
+              Number(stepData.tpAmount || 0) || Number(0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -8282,7 +8320,7 @@ export const condition22 = ({
               type="date"
               name="newODPolicyStartDate"
               value={stepData.newODPolicyStartDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newOdPolicyStartDate', endField: 'newOdPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
@@ -8294,7 +8332,7 @@ export const condition22 = ({
               type="date"
               name="newODPolicyEndDate"
               value={stepData.newODPolicyEndDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newOdPolicyStartDate', endField: 'newOdPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
             />
           </div>
@@ -8549,7 +8587,7 @@ export const condition22 = ({
             name="netTotal"
             value={
               Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.tpAmount || Number(0)) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -8575,8 +8613,8 @@ export const condition22 = ({
             name="totalPremium"
             value={
               Number(stepData.gstAmount || 0) +
-                Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.odAmount || 0) +
+              Number(stepData.tpAmount || 0) || Number(0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -8665,13 +8703,13 @@ export const condition23 = ({
         <>
           <div className="">
             <label>
-              New TP Policy Start Date 23 <span className="text-[#f00]">*</span>
+              New TP Policy Start Date <span className="text-[#f00]">*</span>
             </label>
             <input
               type="date"
               name="newTPPolicyStartDate"
               value={stepData.newTPPolicyStartDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
               className={`w-full border px-4 py-2 rounded`}
             />
           </div>
@@ -8683,7 +8721,7 @@ export const condition23 = ({
               type="date"
               name="newTPPolicyEndDate"
               value={stepData.newTPPolicyEndDate}
-              onChange={handleChangeStep}
+              onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newTPPolicyStartDate', endField: 'newTPPolicyEndDate' })}
               className={`w-full border px-4 py-2 rounded`}
             />
           </div>
@@ -8872,7 +8910,7 @@ export const condition23 = ({
             name="netTotal"
             value={
               Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.tpAmount || Number(0)) || 0
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -8898,8 +8936,8 @@ export const condition23 = ({
             name="totalPremium"
             value={
               Number(stepData.gstAmount || 0) +
-                Number(stepData.odAmount || 0) +
-                Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.odAmount || 0) +
+              Number(stepData.tpAmount || 0) || Number(0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
