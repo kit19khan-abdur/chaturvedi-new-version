@@ -72,6 +72,7 @@ const MainComponent = () => {
         policyIssueDate: "",
         idv: "",
         paCover: "No",
+        paCoverAmount: 0,
         odAmount: "",
         tpAmount: "",
         netTotal: "",
@@ -150,6 +151,18 @@ const MainComponent = () => {
 
 
     useEffect(() => {
+        window.setStepManually = setStep;
+        window.getStep = () => step;
+    }, [step]);
+
+    useEffect(() => {
+        if (step > 7) {
+            setStep(7);
+        }
+    }, [step])
+
+
+    useEffect(() => {
         document.title = `Chaturvedi Motors Form || on Step1`;
     }, []);
 
@@ -218,7 +231,7 @@ const MainComponent = () => {
                             setStep={setStep}
                         />
                     )}
-                    
+
                 </form>
             </div>
         </div>

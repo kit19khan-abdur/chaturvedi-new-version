@@ -41,7 +41,7 @@ export const RenderSix = ({ stepData, setStepData, requiredFields, setRequiredFi
         <div className="mb-4">
           <label className="block font-medium">Payment Received Status</label>
           <select
-            name="paymentStatus"
+            name="paymentStatus" 
             className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
             value={stepData.paymentStatus}
             onChange={(e) => handleChangeStep(e)}

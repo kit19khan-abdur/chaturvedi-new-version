@@ -86,11 +86,12 @@ newODPolicyEndDate
       const updated = { ...prev, [name]: value };
 
       // Update netTotal/totalPremium/netPayable if amount fields change
-      if (["odAmount", "tpAmount", "gstAmount", "breakingCharge", "waiverAmount"].includes(name)) {
+      if (["odAmount", "tpAmount", "gstAmount", "breakingCharge", "waiverAmount", "paCoverAmount"].includes(name)) {
+        const paAmount = Number(updated.paCoverAmount) || 0;
         const od = Number(updated.odAmount) || 0;
         const tp = Number(updated.tpAmount) || 0;
         const hasOd = updated.odAmount !== undefined && updated.odAmount !== null && String(updated.odAmount).trim() !== "";
-        const netTotal = hasOd ? od + tp : tp;
+        const netTotal = hasOd ? od + tp + paAmount : tp + paAmount;
         const gst = Number(updated.gstAmount) || 0;
         const totalPremium = Number(netTotal) + gst;
         const breakingCharge = Number(updated.breakingCharge) || 0;
@@ -105,7 +106,6 @@ newODPolicyEndDate
             text: "Net Payable cannot be less than 0. It has been reset to 0.",
           });
           netPayable = 0;
-          updated.netPayable = netPayable;
         }
 
         // Update calculated fields
@@ -113,7 +113,6 @@ newODPolicyEndDate
         updated.totalPremium = totalPremium;
         updated.netPayable = netPayable;
       }
-
       return updated;
     });
   };
