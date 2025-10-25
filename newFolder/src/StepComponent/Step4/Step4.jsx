@@ -76,16 +76,37 @@ const Step4 = ({ stepData, step, setStep, setStepData }) => {
   };
 
   const handleChangeStep = (e) => {
-    const { name, value } = e.target;
+    // Support two common onChange signatures:
+    // 1) DOM event: e.target.{name,value}
+    // 2) Plain object: { name, value } (some custom components pass this)
+    let name;
+    let value;
+    if (e && e.target) {
+      name = e.target.name;
+      value = e.target.value;
+    } else if (e && typeof e === "object" && "name" in e) {
+      name = e.name;
+      value = e.value;
+    }
+
+    if (!name) {
+      // Defensive: avoid silent failures — log helpful info for debugging
+      console.warn("handleChangeStep: missing input name on onChange call", e);
+      return;
+    }
 
     setStepData((prev) => {
       if (!prev) return prev;
 
       // Create a shallow copy and apply the current change so calculations use the new value
-      const updated = { ...prev, [name]: value };
+  const updated = { ...prev, [name]: value };
+
+      if(name === "paCover" && value.toLowerCase() === "no") {
+        updated.paCoverAmount = 0;
+      }
 
       // Update netTotal/totalPremium/netPayable if amount fields change
-      if (["odAmount", "tpAmount", "gstAmount", "breakingCharge", "waiverAmount", "paCoverAmount"].includes(name)) {
+      if (["odAmount", "tpAmount", "gstAmount", "breakingCharge", "waiverAmount", "paCoverAmount", "paCover"].includes(name)) {
         const paAmount = Number(updated.paCoverAmount) || 0;
         const od = Number(updated.odAmount) || 0;
         const tp = Number(updated.tpAmount) || 0;

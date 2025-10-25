@@ -315,7 +315,7 @@ export const condition1 = ({
   stepData,
   setStepData,
   setRequiredFields,
- }) => {
+}) => {
   const data = Alloption(stepData, setStepData);
   const {
     addonOptions,
@@ -326,7 +326,7 @@ export const condition1 = ({
     insurerOptions,
   } = data;
 
-   useEffect(() => {
+  useEffect(() => {
     const field = [];
     if (stepData.paCover.toLowerCase() === "yes") {
       field.push(
@@ -348,7 +348,7 @@ export const condition1 = ({
     setRequiredFields(field);
     // compute derived amount fields and persist
     computeAndUpdateAmounts(stepData, setStepData);
-   }, [setRequiredFields, stepData, setStepData]);
+  }, [setRequiredFields, stepData, setStepData]);
   return (
     <>
       <div className="capitalize grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -2128,8 +2128,7 @@ export const condition5 = ({
             type="text"
             name="netTotal"
             value={
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.netTotal || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -2154,9 +2153,7 @@ export const condition5 = ({
             type="text"
             name="totalPremium"
             value={
-              Number(stepData.gstAmount || 0) +
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.totalPremium || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -2439,8 +2436,7 @@ export const condition6 = ({
             type="text"
             name="netTotal"
             value={
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.netTotal || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -2465,9 +2461,7 @@ export const condition6 = ({
             type="text"
             name="totalPremium"
             value={
-              Number(stepData.gstAmount || 0) +
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.totalPremium || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -2750,8 +2744,7 @@ export const condition7 = ({
             type="text"
             name="netTotal"
             value={
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.netTotal || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -2776,9 +2769,7 @@ export const condition7 = ({
             type="text"
             name="totalPremium"
             value={
-              Number(stepData.gstAmount || 0) +
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.totalPremium || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -3070,8 +3061,7 @@ export const condition8 = ({
             type="text"
             name="netTotal"
             value={
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.netTotal || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -3096,9 +3086,7 @@ export const condition8 = ({
             type="text"
             name="totalPremium"
             value={
-              Number(stepData.gstAmount || 0) +
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.totalPremium || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -3362,8 +3350,7 @@ export const condition9 = ({
             type="text"
             name="netTotal"
             value={
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.netTotal || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -3388,9 +3375,7 @@ export const condition9 = ({
             type="text"
             name="totalPremium"
             value={
-              Number(stepData.gstAmount || 0) +
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.totalPremium || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -3782,8 +3767,7 @@ export const condition10 = ({
             type="text"
             name="netTotal"
             value={
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.netTotal || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -3808,9 +3792,7 @@ export const condition10 = ({
             type="text"
             name="totalPremium"
             value={
-              Number(stepData.gstAmount || 0) +
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.totalPremium || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -4201,8 +4183,7 @@ export const condition11 = ({
             type="text"
             name="netTotal"
             value={
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.netTotal || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -4227,9 +4208,7 @@ export const condition11 = ({
             type="text"
             name="totalPremium"
             value={
-              Number(stepData.gstAmount || 0) +
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.totalPremium || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -4620,8 +4599,7 @@ export const condition12 = ({
             type="text"
             name="netTotal"
             value={
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.netTotal || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -4646,9 +4624,7 @@ export const condition12 = ({
             type="text"
             name="totalPremium"
             value={
-              Number(stepData.gstAmount || 0) +
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.totalPremium || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -5039,8 +5015,7 @@ export const condition13 = ({
             type="text"
             name="netTotal"
             value={
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.netTotal || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -5065,9 +5040,7 @@ export const condition13 = ({
             type="text"
             name="totalPremium"
             value={
-              Number(stepData.gstAmount || 0) +
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.totalPremium || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -5412,8 +5385,7 @@ export const condition14 = ({
             type="text"
             name="netTotal"
             value={
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.netTotal || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -5438,9 +5410,7 @@ export const condition14 = ({
             type="text"
             name="totalPremium"
             value={
-              Number(stepData.gstAmount || 0) +
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.totalPremium || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -5830,8 +5800,7 @@ export const condition15 = ({
             type="text"
             name="netTotal"
             value={
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.netTotal || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -5856,9 +5825,7 @@ export const condition15 = ({
             type="text"
             name="totalPremium"
             value={
-              Number(stepData.gstAmount || 0) +
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.totalPremium || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -6249,8 +6216,7 @@ export const condition16 = ({
             type="text"
             name="netTotal"
             value={
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.netTotal || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -6275,9 +6241,7 @@ export const condition16 = ({
             type="text"
             name="totalPremium"
             value={
-              Number(stepData.gstAmount || 0) +
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.totalPremium || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -6575,8 +6539,7 @@ export const condition17 = ({
             type="text"
             name="netTotal"
             value={
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.netTotal || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -6601,9 +6564,7 @@ export const condition17 = ({
             type="text"
             name="totalPremium"
             value={
-              Number(stepData.gstAmount || 0) +
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.totalPremium || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -6980,8 +6941,7 @@ export const condition18 = ({
             type="text"
             name="netTotal"
             value={
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.netTotal || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -7006,9 +6966,7 @@ export const condition18 = ({
             type="text"
             name="totalPremium"
             value={
-              Number(stepData.gstAmount || 0) +
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.totalPremium || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -7385,8 +7343,7 @@ export const condition19 = ({
             type="text"
             name="netTotal"
             value={
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.netTotal || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -7411,9 +7368,7 @@ export const condition19 = ({
             type="text"
             name="totalPremium"
             value={
-              Number(stepData.gstAmount || 0) +
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.totalPremium || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -7789,8 +7744,7 @@ export const condition20 = ({
             type="text"
             name="netTotal"
             value={
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.netTotal || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -7815,9 +7769,7 @@ export const condition20 = ({
             type="text"
             name="totalPremium"
             value={
-              Number(stepData.gstAmount || 0) +
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.totalPremium || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -8205,8 +8157,7 @@ export const condition21 = ({
             type="text"
             name="netTotal"
             value={
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.netTotal || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -8231,9 +8182,7 @@ export const condition21 = ({
             type="text"
             name="totalPremium"
             value={
-              Number(stepData.gstAmount || 0) +
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.totalPremium || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -8596,8 +8545,7 @@ export const condition22 = ({
             type="text"
             name="netTotal"
             value={
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.netTotal || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -8622,9 +8570,7 @@ export const condition22 = ({
             type="text"
             name="totalPremium"
             value={
-              Number(stepData.gstAmount || 0) +
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.totalPremium || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -8919,8 +8865,7 @@ export const condition23 = ({
             type="text"
             name="netTotal"
             value={
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || Number(0)) || 0
+              Number(stepData.netTotal || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
@@ -8945,9 +8890,7 @@ export const condition23 = ({
             type="text"
             name="totalPremium"
             value={
-              Number(stepData.gstAmount || 0) +
-              Number(stepData.odAmount || 0) +
-              Number(stepData.tpAmount || 0) || Number(0)
+              Number(stepData.totalPremium || 0)
             }
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
           />
