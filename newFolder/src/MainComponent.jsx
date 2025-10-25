@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 
 
 const MainComponent = () => {
-    const [step, setStep] = useState(4);
+    const [step, setStep] = useState(1);
     const [stepData, setStepData] = useState({
         customertype: "Individual",
         title: "",
@@ -161,7 +161,7 @@ const MainComponent = () => {
         }
     }, [step])
 
-    
+
     useEffect(() => {
         document.title = `Chaturvedi Motors Form || on Step1`;
     }, []);
