@@ -357,7 +357,7 @@ export const condition1 = ({
             </label>
             <input
               type="date"
-              name="newODPolicyEndDate"
+              name=""
               value={stepData.newODPolicyEndDate}
               onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newODPolicyStartDate', endField: 'newODPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
