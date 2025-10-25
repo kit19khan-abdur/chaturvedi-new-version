@@ -20,6 +20,21 @@ const Step4 = ({ stepData, step, setStep, setStepData }) => {
         return false;
       }
     }
+newODPolicyEndDate
+
+    let newODPolicyStartDate = stepData.newODPolicyStartDate;
+    let newODPolicyEndDate = stepData.newODPolicyEndDate;
+    if (newODPolicyStartDate && newODPolicyEndDate) {
+      let _odDataResult = validateDateRange(newODPolicyStartDate, newODPolicyEndDate);
+      if (!_odDataResult.isValid) {
+        Swal.fire({
+          icon: "warning",
+          title: "Invalid Date Range",
+          html: _odDataResult.error,
+        })
+         return false;
+      }
+    }
 
     let newTPPolicyStartDate = stepData.newTPPolicyStartDate;
     let newTPPolicyEndDate = stepData.newTPPolicyEndDate;
