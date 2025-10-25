@@ -29,8 +29,11 @@ export const RenderSix = ({ stepData, setStepData, requiredFields, setRequiredFi
 
   useEffect(() => {
     const fields = requiredFields
-    if (stepData.paymentStatus.toLowerCase() === 'partial payment received' || stepData.paymentStatus.toLowerCase() === 'total amount due') {
+    if (stepData.paymentStatus.toLowerCase() === 'partial payment received') {
       fields.push("paymentDate", "dueAmount", "expectedClearDate")
+    }
+    if (stepData.paymentStatus.toLowerCase() === 'total amount due') {
+      fields.push("dueAmount", "expectedClearDate")
     }
     setRequiredFields(fields)
   }, [setRequiredFields, stepData])
@@ -77,7 +80,7 @@ export const RenderSix = ({ stepData, setStepData, requiredFields, setRequiredFi
         {(stepData.paymentStatus === 'Partial Payment Received' || stepData.paymentStatus === 'Total Amount Due') && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div>
-              <label className="block font-medium">Due Amount Left By Customer</label>
+              <label className="block font-medium">Due Amount Left By Customer <span className="text-[#f00]">*</span></label>
               <input
                 type="text"
                 name="dueAmount"
@@ -89,7 +92,7 @@ export const RenderSix = ({ stepData, setStepData, requiredFields, setRequiredFi
             </div>
 
             <div>
-              <label className="block font-medium">Expected Pending Payment Clear Date</label>
+              <label className="block font-medium">Expected Pending Payment Clear Date <span className="text-[#f00]">*</span></label>
               <input
                 type="date"
                 name="expectedClearDate"
@@ -101,7 +104,7 @@ export const RenderSix = ({ stepData, setStepData, requiredFields, setRequiredFi
           </div>
         )}
         <div>
-        <label className="block font-medium">Remarks <span className="text-[#f00]">*</span></label>
+        <label className="block font-medium">Remarks</label>
         <textarea
           rows={3}
           placeholder="Enter Remarks"
