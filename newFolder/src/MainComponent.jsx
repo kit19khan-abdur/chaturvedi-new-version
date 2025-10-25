@@ -32,6 +32,11 @@ const MainComponent = () => {
         //Step 2
         proposalType: "",
         policyType: "",
+
+        // for testing purpose only
+        // proposalType: "New",
+        // policyType: "1+5 bundle policy",
+
         receiptNumber: "",
         receiptDate: "",
         vehicleYear: "",

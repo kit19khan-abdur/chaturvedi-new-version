@@ -30,19 +30,33 @@ function handleDatePairChange({ e, stepData, setStepData, startField, endField }
 function computeAndUpdateAmounts(stepData, setStepData) {
   const od = Number(stepData.odAmount) || 0;
   const tp = Number(stepData.tpAmount) || 0;
+  const pa = Number(stepData.paCoverAmount) || 0;
   const gst = Number(stepData.gstAmount) || 0;
   const breaking = Number(stepData.breakingCharge) || 0;
   const waiver = Number(stepData.waiverAmount) || 0;
 
-  const netTotal = od ? od + tp : tp;
-  const totalPremium = netTotal + gst;
-  const netPayable = totalPremium + breaking - waiver;
+  // If odAmount is provided (non-empty), include it; otherwise don't
+  const hasOd =
+    stepData.odAmount !== undefined &&
+    stepData.odAmount !== null &&
+    String(stepData.odAmount).trim() !== "";
 
-  // Only update if values have changed
+  const netTotal = hasOd ? od + tp + pa : tp + pa;
+  const totalPremium = netTotal + gst;
+  let netPayable = totalPremium + breaking - waiver;
+
+  // Prevent negative payable silently here (handler already shows warning when user types)
+  if (netPayable < 0) netPayable = 0;
+
+  // Only update if numeric values changed
+  const prevNetTotal = Number(stepData.netTotal) || 0;
+  const prevTotalPremium = Number(stepData.totalPremium) || 0;
+  const prevNetPayable = Number(stepData.netPayable) || 0;
+
   if (
-    stepData.netTotal !== netTotal ||
-    stepData.totalPremium !== totalPremium ||
-    stepData.netPayable !== netPayable
+    prevNetTotal !== netTotal ||
+    prevTotalPremium !== totalPremium ||
+    prevNetPayable !== netPayable
   ) {
     setStepData({
       ...stepData,
@@ -357,7 +371,7 @@ export const condition1 = ({
             </label>
             <input
               type="date"
-              name=""
+              name="newODPolicyEndDate"
               value={stepData.newODPolicyEndDate}
               onChange={e => handleDatePairChange({ e, stepData, setStepData, startField: 'newODPolicyStartDate', endField: 'newODPolicyEndDate' })}
               className={`w-full border px-4 py-2 border-[#e6e6e6] rounded`}
@@ -1001,8 +1015,9 @@ export const condition2 = ({
           <input
             type="text"
             name="netPayable"
-          value={Number(stepData.netPayable) || 0}
+            value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
+            readOnly
           />
         </div>
       </div>
@@ -1392,6 +1407,7 @@ export const condition3 = ({
             name="netPayable"
             value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
+            readOnly
           />
         </div>
       </div>
@@ -1782,6 +1798,7 @@ export const condition4 = ({
             name="netPayable"
             value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
+            readOnly
           />
         </div>
       </div>
@@ -2176,6 +2193,7 @@ export const condition5 = ({
             name="netPayable"
             value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
+            readOnly
           />
         </div>
       </div>
@@ -2486,6 +2504,7 @@ export const condition6 = ({
             name="netPayable"
             value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
+            readOnly
           />
         </div>
       </div>
@@ -2796,6 +2815,7 @@ export const condition7 = ({
             name="netPayable"
             value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
+            readOnly
           />
         </div>
       </div>
@@ -3115,6 +3135,7 @@ export const condition8 = ({
             name="netPayable"
             value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
+            readOnly
           />
         </div>
       </div>
@@ -3406,6 +3427,7 @@ export const condition9 = ({
             name="netPayable"
             value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
+            readOnly
           />
         </div>
       </div>
@@ -3825,6 +3847,7 @@ export const condition10 = ({
             name="netPayable"
             value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
+            readOnly
           />
         </div>
       </div>
@@ -4243,6 +4266,7 @@ export const condition11 = ({
             name="netPayable"
             value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
+            readOnly
           />
         </div>
       </div>
@@ -4661,6 +4685,7 @@ export const condition12 = ({
             name="netPayable"
             value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
+            readOnly
           />
         </div>
       </div>
@@ -5079,6 +5104,7 @@ export const condition13 = ({
             name="netPayable"
             value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
+            readOnly
           />
         </div>
       </div>
@@ -5451,6 +5477,7 @@ export const condition14 = ({
             name="netPayable"
             value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
+            readOnly
           />
         </div>
       </div>
@@ -5868,6 +5895,7 @@ export const condition15 = ({
             name="netPayable"
             value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
+            readOnly
           />
         </div>
       </div>
@@ -6286,6 +6314,7 @@ export const condition16 = ({
             name="netPayable"
             value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
+            readOnly
           />
         </div>
       </div>
@@ -6611,6 +6640,7 @@ export const condition17 = ({
             name="netPayable"
             value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
+            readOnly
           />
         </div>
       </div>
@@ -7015,6 +7045,7 @@ export const condition18 = ({
             name="netPayable"
             value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
+            readOnly
           />
         </div>
       </div>
@@ -7419,6 +7450,7 @@ export const condition19 = ({
             name="netPayable"
             value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
+            readOnly
           />
         </div>
       </div>
@@ -7822,6 +7854,7 @@ export const condition20 = ({
             name="netPayable"
             value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
+            readOnly
           />
         </div>
       </div>
@@ -8237,6 +8270,7 @@ export const condition21 = ({
             name="netPayable"
             value={Number(stepData.netPayable) || 0}
             className="w-full border px-4 py-2 border-[#e6e6e6] rounded"
+            readOnly
           />
         </div>
       </div>

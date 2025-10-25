@@ -20,7 +20,6 @@ const Step4 = ({ stepData, step, setStep, setStepData }) => {
         return false;
       }
     }
-newODPolicyEndDate
 
     let newODPolicyStartDate = stepData.newODPolicyStartDate;
     let newODPolicyEndDate = stepData.newODPolicyEndDate;
