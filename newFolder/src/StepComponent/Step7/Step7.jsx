@@ -72,6 +72,7 @@ const Step7 = ({ stepData, setStepData, step, setStep }) => {
     policyIssueDate: "",
     idv: "",
     paCover: "",
+    paCoverAmount: 0,
     odAmount: "",
     tpAmount: "",
     netTotal: "",

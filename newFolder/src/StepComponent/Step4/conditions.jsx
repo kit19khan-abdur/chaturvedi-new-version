@@ -581,7 +581,7 @@ export const condition1 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(Number(stepData.paCoverAmount) || 0) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -914,7 +914,7 @@ export const condition2 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(Number(stepData.paCoverAmount) || 0) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -1291,7 +1291,7 @@ export const condition3 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(Number(stepData.paCoverAmount) || 0) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -1681,7 +1681,7 @@ export const condition4 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(Number(stepData.paCoverAmount) || 0) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -2070,7 +2070,7 @@ export const condition5 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(Number(stepData.paCoverAmount) || 0) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -2380,7 +2380,7 @@ export const condition6 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(Number(stepData.paCoverAmount) || 0) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -2690,7 +2690,7 @@ export const condition7 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(Number(stepData.paCoverAmount) || 0) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -3021,7 +3021,7 @@ export const condition8 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(Number(stepData.paCoverAmount) || 0) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -3312,7 +3312,7 @@ export const condition9 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(Number(stepData.paCoverAmount) || 0) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -3719,7 +3719,7 @@ export const condition10 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(stepData.paCoverAmount) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -4137,7 +4137,7 @@ export const condition11 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(stepData.paCoverAmount) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -4555,7 +4555,7 @@ export const condition12 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(stepData.paCoverAmount) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -4973,7 +4973,7 @@ export const condition13 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(stepData.paCoverAmount) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -5345,7 +5345,7 @@ export const condition14 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(stepData.paCoverAmount) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -5762,7 +5762,7 @@ export const condition15 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(stepData.paCoverAmount) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -6180,7 +6180,7 @@ export const condition16 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(stepData.paCoverAmount) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -6517,7 +6517,7 @@ export const condition17 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(stepData.paCoverAmount) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -6922,7 +6922,7 @@ export const condition18 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(stepData.paCoverAmount) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -7326,7 +7326,7 @@ export const condition19 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(stepData.paCoverAmount) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -7729,7 +7729,7 @@ export const condition20 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(stepData.paCoverAmount) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -8132,7 +8132,7 @@ export const condition21 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(stepData.paCoverAmount) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -8522,7 +8522,7 @@ export const condition22 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(stepData.paCoverAmount) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />
@@ -8857,7 +8857,7 @@ export const condition23 = ({
               <input
                 name="paCoverAmount"
                 type="text"
-                value={stepData.paCoverAmount}
+                value={Number(stepData.paCoverAmount) || 0}
                 onChange={handleChangeStep}
                 className={`w-full border custom-select px-4 py-2  rounded`}
               />

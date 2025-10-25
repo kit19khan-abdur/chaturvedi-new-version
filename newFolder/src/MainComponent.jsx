@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 
 
 const MainComponent = () => {
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(4);
     const [stepData, setStepData] = useState({
         customertype: "Individual",
         title: "",
@@ -72,6 +72,7 @@ const MainComponent = () => {
         policyIssueDate: "",
         idv: "",
         paCover: "No",
+        paCoverAmount: 0,
         odAmount: "",
         tpAmount: "",
         netTotal: "",
@@ -150,6 +151,18 @@ const MainComponent = () => {
 
 
     useEffect(() => {
+        window.setStepManually = setStep;
+        window.getStep = () => step;
+    }, [step]);
+
+    useEffect(() => {
+        if (step > 7) {
+            setStep(7);
+        }
+    }, [step])
+
+    
+    useEffect(() => {
         document.title = `Chaturvedi Motors Form || on Step1`;
     }, []);
 
@@ -218,7 +231,7 @@ const MainComponent = () => {
                             setStep={setStep}
                         />
                     )}
-                    
+
                 </form>
             </div>
         </div>

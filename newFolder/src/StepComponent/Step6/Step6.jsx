@@ -35,7 +35,9 @@ const Step6 = ({ stepData, setStepData, step, setStep }) => {
       "chequestatus",
       "chequeAmountsix"
     ];
-    const modeToField = {
+    let modeToField = {};
+    if(stepData.paymentStatus !== "Total Amount Due"){
+    modeToField = {
       "Cash": "cashAmountsix",
       "NEFT/RTGS": "neftAmountsix",
       "Google Pay": "googlePayAmountsix",
@@ -45,6 +47,9 @@ const Step6 = ({ stepData, setStepData, step, setStep }) => {
       "Cheque": chequeFields,
       "PhonePe": "phonepeAmountsix"
     };
+  }else{
+     modeToField = {}
+  }
 
     // For each selected payment mode, its amount field(s) must be filled
     for (const mode of stepData.paymentModessix) {
