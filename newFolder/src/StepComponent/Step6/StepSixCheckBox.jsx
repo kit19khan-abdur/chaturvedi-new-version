@@ -3,6 +3,29 @@
 import React, { useEffect, useState } from "react";
 
 const StepSixCheckBox = ({ stepData, setStepData, title, setRequiredFields }) => {
+
+  const accountOptions = [
+    {label: "Select Option", value: ""},
+    { label: "Chaturvedi Motors – HDFC Bank – Current Account", value: "Chaturvedi Motors – HDFC Bank – Current Account" },
+    { label: "Chaturvedi Motors – SBI Bank – Current Account", value: "Chaturvedi Motors – SBI Bank – Current Account" },
+    { label: "Satya Prakash – SBI Bank – Savings Account", value: "Satya Prakash – SBI Bank – Savings Account" },
+  { label: "Satya Prakash – ICICI Bank – Savings Account", value: "Satya Prakash – ICICI Bank – Savings Account" },
+  { label: "Satya Prakash – HDFC Bank – Savings Account", value: "Satya Prakash – HDFC Bank – Savings Account" },
+  { label: "Yatendra Kumar – SBI Bank – Savings Account", value: "Yatendra Kumar – SBI Bank – Savings Account" },
+  { label: "Yatendra Kumar – HDFC Bank – Savings Account", value: "Yatendra Kumar – HDFC Bank – Savings Account" },
+  { label: "Khem Chand – HDFC Bank – Savings Account", value: "Khem Chand – HDFC Bank – Savings Account" },
+  { label: "Rekha – HDFC Bank – Savings Account", value: "Rekha – HDFC Bank – Savings Account" },
+  { label: "Chitra – HDFC Bank – Savings Account", value: "Chitra – HDFC Bank – Savings Account" },
+  { label: "Chitra – SBI Bank – Savings Account", value: "Chitra – SBI Bank – Savings Account" },
+  { label: "Sapna – HDFC Bank – Savings Account", value: "Sapna – HDFC Bank – Savings Account" },
+  { label: "Sapna – SBI Bank – Savings Account", value: "Sapna – SBI Bank – Savings Account" },
+  { label: "Sangita – SBI Bank – Savings Account", value: "Sangita – SBI Bank – Savings Account" },
+  { label: "Dheeraj – Axis Bank – Savings Account", value: "Dheeraj – Axis Bank – Savings Account" },
+  { label: "Ravi Shankar – PNB Bank – Savings Account", value: "Ravi Shankar – PNB Bank – Savings Account" },
+  { label: "Priyanka Sharma – PNB Bank – Savings Account", value: "Priyanka Sharma – PNB Bank – Savings Account" },
+  { label: "Others", value: "Others" }
+];
+
   const paymentModessixList = [
     "Cash",
     "NEFT/RTGS",
@@ -551,6 +574,20 @@ const StepSixCheckBox = ({ stepData, setStepData, title, setRequiredFields }) =>
           </div>
         </>
       )}
+
+      {localData?.paymentModessix?.includes("QR Code") && (<>
+                  <div className="mb-4">
+            <label className="block font-medium">Bank Detail<span className="text-[#f00]">*</span></label>
+            <select
+              name="bankDetail"
+              className={`w-full border custom-select px-4 py-2 border-[#e6e6e6] rounded`}
+              value={stepData.bankDetail}
+              onChange={(e) => handleChangeStep(e)}
+            >
+              {accountOptions?.map((item,index) => (<option key={index} value={item?.value}>{item?.label}</option>))}
+            </select>
+          </div>
+      </>)}
 
       {localData.paymentModessix?.length > 0 &&
         !(

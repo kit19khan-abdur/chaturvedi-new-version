@@ -101,6 +101,7 @@ export function Individual({ handleChangeStep, stepData, setStepData, setRequire
             type="text"
             name="primaryPhone"
             value={stepData?.primaryPhone}
+            maxLength={10}
             onChange={(e) => {
               const value = e.target.value;
               if (value === '' || /^[0-9]+$/.test(value)) {
@@ -357,6 +358,7 @@ export function Corporate({ handleChangeStep, stepData, setStepData, setRequired
                 type="text"
                 name="primaryPhone"
                 value={stepData?.primaryPhone}
+                maxLength={10}
                 onChange={(e) => {
                   const numericValue = e.target.value.replace(/\D/g, "");
                   if(numericValue){

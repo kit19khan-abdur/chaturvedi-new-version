@@ -177,6 +177,12 @@ export const SecondStepComp = ({ handleChangeStep, stepData, setStepData, setReq
                 <option value="5 Year TP Only Policy">
                   5 Year TP Only Policy
                 </option>
+                <option value="1+3 Bundle policy">
+                  1+3 Bundle policy 
+                </option>
+                <option value="1 Year Package Policy">
+                  1 Year Package Policy
+                </option>
               </>
             )}
             {proposal === "renewal" && (

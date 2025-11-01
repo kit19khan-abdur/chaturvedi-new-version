@@ -39,6 +39,7 @@ const handleSubmit = async (stepData) => {
     Country: finalData.country || "",
     City: finalData.city || "",
     ncbPolicy: finalData.ncbPolicy || "",
+    bankDetail: finalData.bankDetail || "",
     State: finalData.state || "",
     fueltype: finalData.fueltype || "",
     totalPremium: finalData.totalPremiumWithGst || "",
